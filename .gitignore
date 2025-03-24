@@ -139,3 +139,6 @@ temp/
 CLAUDE.md 
 UsingClaude3-7.md
 PromptTips.md 
+
+# Node.js
+node_modules/ 

@@ -47,7 +47,7 @@ Project Leela is built on a modular architecture with clear separation of concer
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/project-leela.git
+   git clone https://github.com/Gajesh2007/proj-leela.git
    cd project-leela
    ```
 
