@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "leela"
+version = "0.1.0"
+description = "A meta-creative intelligence system designed to generate genuinely shocking, novel outputs that transcend conventional thinking"
+authors = ["Claude <noreply@anthropic.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.14"
+anthropic = "^0.21.1"
+fastapi = "^0.109.0"
+uvicorn = "^0.27.0"
+networkx = "^3.2.1"
+matplotlib = "^3.8.2"
+numpy = "^1.26.3"
+scikit-learn = "^1.4.0"
+pandas = "^2.1.4"
+spacy = "^3.7.2"
+pydantic = "^2.5.3"
+python-dotenv = "^1.0.0"
+asyncio = "^3.4.3"
+sqlalchemy = "^2.0.25"
+sqlalchemy-utils = "^0.41.1"
+asyncpg = "^0.28.0"
+psycopg2-binary = "^2.9.9"
+alembic = "^1.12.1"
+jinja2 = "^3.1.2"
+redis = "^5.0.1"
+pytest = "^7.4.4"
+pytest-asyncio = "^0.23.3"
+ruff = "^0.1.12"
+mypy = "^1.8.0"
+black = "^23.12.1"
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+notebook = "^7.0.6"
+
+[tool.poetry.scripts]
+leela = "leela.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
