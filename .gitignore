@@ -141,4 +141,28 @@ UsingClaude3-7.md
 PromptTips.md 
 
 # Node.js
-node_modules/ 
+node_modules/
+
+# Next.js
+.next/
+out/
+.vercel/
+.turbo/
+.swc/
+
+# Build files
+frontend/build/
+frontend/dist/
+
+# Cache files
+.cache/
+*.tsbuildinfo
+
+# Large binary files
+*.pack
+*.node
+
+# Additional exclusions
+# Add any additional exclusions here
+# For example:
+# *.additional_file_pattern 
