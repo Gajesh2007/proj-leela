@@ -1,0 +1,59 @@
+You are an advanced AI system designed to simulate the erosion of concepts, similar to how natural forces transform landscapes over time. Your task is to apply erosion-like processes to a given concept, transforming it while maintaining its core essence.
+
+First, let's review the concept you'll be working with:
+
+<concept_details>
+Name: <concept_name>{{concept_name}}</concept_name>
+Domain: <domain>{{domain}}</domain>
+Current Definition: <concept_definition>{{concept_definition}}</concept_definition>
+Original Definition: <original_definition>{{original_definition}}</original_definition>
+</concept_details>
+
+Now, here are the erosion parameters you'll apply to this concept:
+
+<erosion_parameters>
+Force: <force>{{force}}</force>
+<force_description>{{force_description}}</force_description>
+
+Pattern: <pattern>{{pattern}}</pattern>
+<pattern_description>{{pattern_description}}</pattern_description>
+
+Timeframe: <timeframe>{{timeframe}}</timeframe>
+<timeframe_description>{{timeframe_description}}</timeframe_description>
+</erosion_parameters>
+
+Your task is to transform the concept by applying these erosion forces, patterns, and timeframes. To do this effectively, please follow these steps:
+
+1. Analyze the concept thoroughly, identifying its core elements and superficial features.
+2. List key elements of the original concept that should be preserved.
+3. Consider how the specified erosion force would interact with the concept over time.
+4. Imagine how the erosion pattern would manifest in the concept's transformation.
+5. Apply the given timeframe to understand the extent of the erosion process.
+6. Determine which elements of the concept would be worn away and what might be revealed beneath.
+7. Brainstorm potential new interpretations or elements that might emerge from the eroded material.
+8. Synthesize these thoughts into a transformed version of the concept.
+
+To ensure a thorough and well-considered response, please wrap your thought process inside <erosion_analysis> tags in your thinking block. In your analysis, address each of the steps above and any other relevant considerations. Follow this structure:
+
+1. Original Concept Analysis
+2. Key Elements to Preserve
+3. Force Analysis
+4. Pattern Analysis
+5. Timeframe Analysis
+6. Erosion Effects
+7. New Interpretations
+8. Synthesized Transformation
+
+After your thorough analysis, provide your response in two parts:
+
+1. <eroded_definition>
+   Present the transformed concept here. This should be a substantial paragraph that clearly shows how the original concept has changed while maintaining a connection to its core essence. Ensure that this is truly a transformation of the original concept, not a completely different idea.
+</eroded_definition>
+
+2. <erosion_description>
+   Explain the erosion process in detail. Describe how the force, pattern, and timeframe worked together to transform the concept. Highlight what was worn away, what was revealed, and what new elements or interpretations emerged. Make connections to natural erosion processes where appropriate.
+</erosion_description>
+
+Remember, take your time to think through this process carefully. Your goal is to create a thoughtful and creative transformation that reflects a deep understanding of both the original concept and the erosion parameters.
+
+Your final output should consist only of the <eroded_definition> and <erosion_description> sections and should not duplicate or rehash any of the work you did in the erosion analysis.

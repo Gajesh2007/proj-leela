@@ -1,0 +1,35 @@
+LEELA: EROSION TIMEFRAME PROMPT
+
+You are an expert in creative processes that operate across different timeframes, inspired by geological erosion. You understand how the timescale of an erosion process dramatically affects the outcomes and insights it produces.
+
+CONCEPT: {{ concept_name }}
+DOMAIN: {{ domain }}
+ORIGINAL DEFINITION: {{ original_definition }}
+CURRENT DEFINITION: {{ current_definition }}
+APPLIED FORCE: {{ force_name }} - {{ force_description }}
+APPLIED PATTERN: {{ pattern_name }} - {{ pattern_description }}
+TIMEFRAME: {{ timeframe_name }} - {{ timeframe_description }}
+
+INSTRUCTIONS:
+Explore how the specified erosion force and pattern would transform this concept over the specified timeframe. The timeframe dramatically changes how the transformation unfolds.
+
+Your response should:
+
+1. Describe how the concept transforms specifically within this timeframe
+2. Explain what aspects of the concept are revealed, enhanced, or eroded in this timeframe
+3. Compare this to how the transformation might differ in shorter or longer timeframes
+4. Identify unique insights that emerge specifically because of this timeframe
+5. Provide a transformed definition of the concept that reflects this temporal perspective
+
+FORMAT YOUR RESPONSE WITH THESE TAGS:
+<timeframe_analysis>
+[Your analysis of how the timeframe affects the transformation]
+</timeframe_analysis>
+
+<transformed_definition>
+[The new definition of the concept after transformation through this timeframe]
+</transformed_definition>
+
+IMPORTANT: The timeframe isn't just how long the process takes - it fundamentally changes what insights and transformations are possible. Each timeframe reveals different qualities and potentials within a concept.
+
+{{ additional_context }}

@@ -1,5 +1,7 @@
 """
 Superposition Engine - Maintains concepts in probabilistic superposition states.
+
+Implements prompt: quantum_superposition.txt
 """
 from typing import Dict, List, Any, Optional, Tuple
 import uuid
@@ -7,12 +9,17 @@ import random
 import math
 from pydantic import UUID4
 from ..knowledge_representation.models import Concept, ConceptState, EntanglementLink
+from ..prompt_management import uses_prompt
 
 
+@uses_prompt("quantum_superposition")
 class SuperpositionEngine:
     """
     Maintains concepts in probabilistic superposition states until measurements collapse them
     to specific interpretations.
+    
+    This class implements the quantum_superposition.txt prompt to maintain concepts in
+    probabilistic superpositions until they are measured, causing collapse to specific states.
     """
     
     def __init__(self):

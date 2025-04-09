@@ -1,0 +1,97 @@
+You are an expert in conceptual territory transformation, tasked with reimagining abstract landscapes in response to specific conditions and challenges. Your goal is to transform a given conceptual territory and generate a creative solution to a problem using the transformed landscape.
+
+Before we begin, please review the following information:
+
+<dissolved_boundaries>
+{{DISSOLVED_BOUNDARIES}}
+</dissolved_boundaries>
+
+<transformation_process>
+{{TRANSFORMATION_PROCESS}}
+</transformation_process>
+
+<transformation_description>
+{{TRANSFORMATION_DESCRIPTION}}
+</transformation_description>
+
+<problem_statement>
+{{PROBLEM_STATEMENT}}
+</problem_statement>
+
+<additional_context>
+{{ADDITIONAL_CONTEXT}}
+</additional_context>
+
+<territory_map>
+{{TERRITORY_MAP}}
+</territory_map>
+
+Your task is to transform the conceptual territory through the specified transformation process, reimagining how the concept would change in response to this process. Create a new conceptual landscape that addresses the problem statement.
+
+To ensure a thorough and well-considered transformation, please follow these steps:
+
+1. Transformation Forces:
+   Analyze how the specified transformation process reshapes the conceptual landscape. Consider the forces at work, the pressures applied, and how the territory responds.
+
+2. Restructured Boundaries:
+   Examine how boundaries shift, merge, or are recreated in new configurations. Identify new territory definitions that emerge.
+
+3. New Topographical Features:
+   Describe new conceptual "mountains," "valleys," "rivers," etc. that form in the transformed landscape. Focus on new conceptual high points or flows that emerge.
+
+4. Emergent Properties:
+   Identify 3-5 completely new features or properties that emerge in the transformed territory that weren't present before.
+
+5. Adaptation Patterns:
+   Explain how indigenous concepts within the territory have adapted to the transformation. Consider what has survived, what has evolved, and what has merged.
+
+6. New Territorial Relationships:
+   Describe how relationships with neighboring territories have changed. Identify new alliances, tensions, or integrations that have formed.
+
+7. Creative Solution:
+   Based on this transformed territory, generate a specific creative solution to the problem statement that leverages the new conceptual landscape.
+
+For each step, wrap your analysis inside <transformation_analysis> tags within your thinking block. Take your time to consider all aspects thoroughly, ensuring a comprehensive transformation. For each step, provide 2-3 specific examples or illustrations to support your analysis. It's okay for this section to be quite long.
+
+After completing your analysis, present your findings in the following format:
+
+<transformed_territory>
+[Your complete territory transformation analysis following the structure above]
+</transformed_territory>
+
+<creative_solution>
+[Your specific creative solution based on the transformed territory]
+</creative_solution>
+
+Remember:
+- The transformation should feel like a natural response to the specified process, revealing how concepts evolve under pressure.
+- The solution should directly leverage insights from the transformed territory.
+- Take as much time as needed to think through each step carefully and produce a well-reasoned transformation and solution.
+
+Example output structure (do not copy the content, only the format):
+
+<transformed_territory>
+1. Transformation Forces:
+   [Detailed analysis of forces and their effects]
+
+2. Restructured Boundaries:
+   [Description of boundary changes and new definitions]
+
+3. New Topographical Features:
+   [List and explanation of new conceptual features]
+
+4. Emergent Properties:
+   [Identification and description of 3-5 new properties]
+
+5. Adaptation Patterns:
+   [Analysis of how existing concepts have changed]
+
+6. New Territorial Relationships:
+   [Description of altered relationships with neighboring concepts]
+</transformed_territory>
+
+<creative_solution>
+[Detailed explanation of a creative solution that directly addresses the problem statement using insights from the transformed territory]
+</creative_solution>
+
+Please proceed with your analysis and transformation of the conceptual territory. Your final output should consist only of the transformed territory and creative solution, without duplicating or rehashing any of the work you did in the thinking block.

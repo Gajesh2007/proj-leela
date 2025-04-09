@@ -4,12 +4,14 @@ Database interface for Project Leela's data persistence.
 import json
 import uuid
 import asyncio
+import os
+import aiosqlite
 from typing import Dict, List, Any, Optional, Union, Type
 from datetime import datetime
-from sqlalchemy import create_engine, Column, String, Float, Integer, Boolean, ForeignKey, Text, DateTime
+from pathlib import Path
+from sqlalchemy import create_engine, Column, String, Float, Integer, Boolean, ForeignKey, Text, DateTime, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Session
-from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.future import select
@@ -20,12 +22,16 @@ from ..knowledge_representation.models import (
     Concept, ConceptState, EntanglementLink, TemporalVariant, Relationship
 )
 
-# Get database config
+# Get database config and paths
 config = get_config()
-db_config = config["db"]
+data_dir = Path(config["paths"]["data_dir"])
 
-# Create DB URL based on config
-DB_URL = f"postgresql+asyncpg://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}"
+# Ensure data directory exists
+os.makedirs(data_dir, exist_ok=True)
+
+# Create SQLite database path
+sqlite_path = data_dir / "leela.db"
+DB_URL = f"sqlite+aiosqlite:///{sqlite_path}"
 
 # Create base model
 Base = declarative_base()
@@ -35,11 +41,11 @@ class DBConceptState(Base):
     """Database model for concept states."""
     __tablename__ = "concept_states"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    concept_id = Column(UUID(as_uuid=True), ForeignKey("concepts.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    concept_id = Column(String(36), ForeignKey("concepts.id"), nullable=False)
     state_definition = Column(Text, nullable=False)
     probability = Column(Float, nullable=False)
-    context_triggers = Column(JSONB, nullable=False, default=list)
+    context_triggers = Column(JSON, nullable=False, default=list)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
@@ -66,9 +72,9 @@ class DBEntanglementLink(Base):
     """Database model for entanglement links."""
     __tablename__ = "entanglement_links"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    source_concept_id = Column(UUID(as_uuid=True), ForeignKey("concepts.id"), nullable=False)
-    target_concept_id = Column(UUID(as_uuid=True), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    source_concept_id = Column(String(36), ForeignKey("concepts.id"), nullable=False)
+    target_concept_id = Column(String(36), nullable=False)
     entanglement_type = Column(String(100), nullable=False)
     correlation_strength = Column(Float, nullable=False)
     evolution_rules = Column(Text, nullable=False)
@@ -100,8 +106,8 @@ class DBTemporalVariant(Base):
     """Database model for temporal variants."""
     __tablename__ = "temporal_variants"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    concept_id = Column(UUID(as_uuid=True), ForeignKey("concepts.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    concept_id = Column(String(36), ForeignKey("concepts.id"), nullable=False)
     era = Column(String(100), nullable=False)
     definition = Column(Text, nullable=False)
     significance = Column(Text, nullable=False)
@@ -134,11 +140,11 @@ class DBConcept(Base):
     """Database model for concepts."""
     __tablename__ = "concepts"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String(255), nullable=False)
     domain = Column(String(100), nullable=False)
     definition = Column(Text, nullable=False)
-    attributes = Column(JSONB, nullable=False, default=dict)
+    attributes = Column(JSON, nullable=False, default=dict)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
@@ -178,12 +184,12 @@ class DBRelationship(Base):
     """Database model for relationships."""
     __tablename__ = "relationships"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    source_concept_id = Column(UUID(as_uuid=True), nullable=False)
-    target_concept_id = Column(UUID(as_uuid=True), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    source_concept_id = Column(String(36), nullable=False)
+    target_concept_id = Column(String(36), nullable=False)
     type = Column(String(100), nullable=False)
     strength = Column(Float, nullable=False)
-    properties = Column(JSONB, nullable=False, default=dict)
+    properties = Column(JSON, nullable=False, default=dict)
     bidirectional = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
@@ -218,8 +224,8 @@ class DBShockProfile(Base):
     """Database model for shock profiles."""
     __tablename__ = "shock_profiles"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    idea_id = Column(UUID(as_uuid=True), ForeignKey("creative_ideas.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    idea_id = Column(String(36), ForeignKey("creative_ideas.id"), nullable=False)
     novelty_score = Column(Float, nullable=False)
     contradiction_score = Column(Float, nullable=False)
     impossibility_score = Column(Float, nullable=False)
@@ -258,14 +264,14 @@ class DBCreativeIdea(Base):
     """Database model for creative ideas."""
     __tablename__ = "creative_ideas"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     description = Column(Text, nullable=False)
     generative_framework = Column(String(100), nullable=False)
     domain = Column(String(100), nullable=True)  # Domain field added
-    impossibility_elements = Column(JSONB, nullable=False, default=list)
-    contradiction_elements = Column(JSONB, nullable=False, default=list)
-    related_concepts = Column(JSONB, nullable=False, default=list)
-    spiral_state_id = Column(UUID(as_uuid=True), ForeignKey("spiral_states.id"), nullable=True)
+    impossibility_elements = Column(JSON, nullable=False, default=list)
+    contradiction_elements = Column(JSON, nullable=False, default=list)
+    related_concepts = Column(JSON, nullable=False, default=list)
+    spiral_state_id = Column(String(36), ForeignKey("spiral_states.id"), nullable=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
@@ -306,12 +312,12 @@ class DBThinkingStep(Base):
     """Database model for thinking steps."""
     __tablename__ = "thinking_steps"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     framework = Column(String(100), nullable=False)
     reasoning_process = Column(Text, nullable=False)
-    insights_generated = Column(JSONB, nullable=False, default=list)
+    insights_generated = Column(JSON, nullable=False, default=list)
     token_usage = Column(Integer, nullable=False)
-    spiral_state_id = Column(UUID(as_uuid=True), ForeignKey("spiral_states.id"), nullable=True)
+    spiral_state_id = Column(String(36), ForeignKey("spiral_states.id"), nullable=True)
     created_at = Column(DateTime, default=datetime.now)
     
     def to_pydantic(self) -> ThinkingStep:
@@ -341,13 +347,13 @@ class DBMethodologyChange(Base):
     """Database model for methodology changes."""
     __tablename__ = "methodology_changes"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     previous_methodology = Column(Text, nullable=False)
     new_methodology = Column(Text, nullable=False)
     evolution_rationale = Column(Text, nullable=False)
     performance_change = Column(Float, nullable=False)
     iteration_number = Column(Integer, nullable=False)
-    spiral_state_id = Column(UUID(as_uuid=True), ForeignKey("spiral_states.id"), nullable=False)
+    spiral_state_id = Column(String(36), ForeignKey("spiral_states.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     
     def to_pydantic(self) -> MethodologyChange:
@@ -379,12 +385,12 @@ class DBSpiralState(Base):
     """Database model for spiral states."""
     __tablename__ = "spiral_states"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     timestamp = Column(DateTime, nullable=False, default=datetime.now)
     current_phase = Column(String(50), nullable=False)
     problem_space = Column(Text, nullable=False)
-    active_shock_frameworks = Column(JSONB, nullable=False, default=list)
-    emergence_indicators = Column(JSONB, nullable=False, default=dict)
+    active_shock_frameworks = Column(JSON, nullable=False, default=list)
+    emergence_indicators = Column(JSON, nullable=False, default=dict)
     created_at = Column(DateTime, default=datetime.now)
     
     # Relationships
@@ -437,8 +443,13 @@ class DatabaseManager:
     
     async def initialize_db(self):
         """Initialize database schema."""
+        print(f"Initializing SQLite database at: {sqlite_path}")
+        # Ensure the parent directory exists
+        os.makedirs(os.path.dirname(sqlite_path), exist_ok=True)
+        
         async with self.engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+            print("Database schema created successfully.")
     
     async def save_concept(self, concept: Concept) -> Concept:
         """

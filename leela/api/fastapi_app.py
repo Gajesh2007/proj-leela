@@ -9,7 +9,16 @@ import asyncio
 import json
 import os
 
-from .core_api import LeelaCoreAPI, CreativeIdeaRequest, CreativeIdeaResponse, DialecticIdeaRequest, DialecticIdeaResponse
+from .core_api import (
+    LeelaCoreAPI, 
+    CreativeIdeaRequest, 
+    CreativeIdeaResponse, 
+    DialecticIdeaRequest, 
+    DialecticIdeaResponse,
+    MycelialIdeaRequest,
+    ErodedIdeaRequest,
+    TerritoryIdeaRequest
+)
 from ..config import get_config
 from ..data_persistence.repository import Repository
 from ..prompt_management.prompt_loader import PromptLoader
@@ -382,6 +391,21 @@ async def get_frameworks():
             "id": "dialectic_synthesis",
             "name": "Dialectic Synthesis",
             "description": "Generates ideas through dialectic thinking from multiple perspectives"
+        },
+        {
+            "id": "mycelial_network",
+            "name": "Mycelial Network",
+            "description": "Grows ideas through network-based decomposition and extension"
+        },
+        {
+            "id": "erosion_engine",
+            "name": "Erosion Engine",
+            "description": "Transforms concepts through persistent application of erosion forces over time"
+        },
+        {
+            "id": "conceptual_territories",
+            "name": "Conceptual Territories",
+            "description": "Maps concepts as territories with boundaries, features, and transformations"
         }
     ]
     
@@ -467,6 +491,203 @@ async def delete_prompt(prompt_name: str):
         return {"message": f"Prompt '{prompt_name}' deleted successfully"}
     else:
         raise HTTPException(status_code=500, detail=f"Error deleting prompt '{prompt_name}'")
+
+
+@app.post("/api/v1/mycelial", response_model=CreativeIdeaResponse)
+async def generate_mycelial_idea(
+    request: MycelialIdeaRequest,
+    leela_api: LeelaCoreAPI = Depends(get_leela_api)
+):
+    """
+    Generate a creative idea using the Mycelial Network model.
+    """
+    try:
+        # Generate the mycelial idea
+        api_logger.info("Generating mycelial idea...")
+        try:
+            response = await leela_api.generate_mycelial_idea(
+                domain=request.domain,
+                problem_statement=request.problem_statement,
+                concept_definitions=request.concept_definitions,
+                extension_rounds=request.extension_rounds
+            )
+            api_logger.info(f"Successfully generated mycelial idea with ID: {response.id}")
+        except Exception as gen_error:
+            api_logger.error(f"Error generating mycelial idea: {str(gen_error)}")
+            print(f"Error generating mycelial idea: {str(gen_error)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error generating mycelial idea: {str(gen_error)}"
+            )
+        
+        # Save the idea to the database
+        api_logger.info(f"Saving mycelial idea to database: {response.id}")
+        print(f"Saving mycelial idea to database: {response.id}")
+        
+        try:
+            # Convert the API response to CreativeIdea model
+            from ..knowledge_representation.models import CreativeIdea, ShockProfile
+            
+            creative_idea = CreativeIdea(
+                id=response.id,
+                description=response.idea,
+                generative_framework="mycelial_network",
+                domain=request.domain,
+                impossibility_elements=[],
+                contradiction_elements=[],
+                related_concepts=[],
+                shock_metrics=response.shock_metrics
+            )
+            
+            # Save the idea using the repository
+            saved_idea = await repository.save_idea(creative_idea)
+            api_logger.info(f"Mycelial idea successfully saved to database: {saved_idea.id}")
+            print(f"Mycelial idea successfully saved to database: {saved_idea.id}")
+        except Exception as save_error:
+            # Log the error but still return the generated idea
+            api_logger.error(f"Error saving mycelial idea: {str(save_error)}")
+            print(f"Error saving mycelial idea: {str(save_error)}")
+        
+        # Return the generated idea
+        return response
+        
+    except Exception as e:
+        # Handle unexpected errors
+        api_logger.error(f"Unexpected error in mycelial idea endpoint: {str(e)}")
+        print(f"Unexpected error in mycelial idea endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/v1/erosion", response_model=CreativeIdeaResponse)
+async def generate_eroded_idea(
+    request: ErodedIdeaRequest,
+    leela_api: LeelaCoreAPI = Depends(get_leela_api)
+):
+    """
+    Generate a creative idea using the Erosion Engine.
+    """
+    try:
+        # Generate the eroded idea
+        api_logger.info("Generating eroded idea...")
+        try:
+            response = await leela_api.generate_eroded_idea(
+                domain=request.domain,
+                problem_statement=request.problem_statement,
+                concept_definition=request.concept_definition,
+                concept_name=request.concept_name,
+                erosion_stages=request.erosion_stages
+            )
+            api_logger.info(f"Successfully generated eroded idea with ID: {response.id}")
+        except Exception as gen_error:
+            api_logger.error(f"Error generating eroded idea: {str(gen_error)}")
+            print(f"Error generating eroded idea: {str(gen_error)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error generating eroded idea: {str(gen_error)}"
+            )
+        
+        # Save the idea to the database
+        api_logger.info(f"Saving eroded idea to database: {response.id}")
+        print(f"Saving eroded idea to database: {response.id}")
+        
+        try:
+            # Convert the API response to CreativeIdea model
+            from ..knowledge_representation.models import CreativeIdea, ShockProfile
+            
+            creative_idea = CreativeIdea(
+                id=response.id,
+                description=response.idea,
+                generative_framework="erosion_engine",
+                domain=request.domain,
+                impossibility_elements=[],
+                contradiction_elements=[],
+                related_concepts=[],
+                shock_metrics=response.shock_metrics
+            )
+            
+            # Save the idea using the repository
+            saved_idea = await repository.save_idea(creative_idea)
+            api_logger.info(f"Eroded idea successfully saved to database: {saved_idea.id}")
+            print(f"Eroded idea successfully saved to database: {saved_idea.id}")
+        except Exception as save_error:
+            # Log the error but still return the generated idea
+            api_logger.error(f"Error saving eroded idea: {str(save_error)}")
+            print(f"Error saving eroded idea: {str(save_error)}")
+        
+        # Return the generated idea
+        return response
+        
+    except Exception as e:
+        # Handle unexpected errors
+        api_logger.error(f"Unexpected error in eroded idea endpoint: {str(e)}")
+        print(f"Unexpected error in eroded idea endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/v1/territory", response_model=CreativeIdeaResponse)
+async def generate_territory_idea(
+    request: TerritoryIdeaRequest,
+    leela_api: LeelaCoreAPI = Depends(get_leela_api)
+):
+    """
+    Generate a creative idea using the Conceptual Territories System.
+    """
+    try:
+        # Generate the territory idea
+        api_logger.info("Generating territory idea...")
+        try:
+            response = await leela_api.generate_territory_idea(
+                domain=request.domain,
+                problem_statement=request.problem_statement,
+                concept_definition=request.concept_definition,
+                concept_name=request.concept_name,
+                transformation_process=request.transformation_process
+            )
+            api_logger.info(f"Successfully generated territory idea with ID: {response.id}")
+        except Exception as gen_error:
+            api_logger.error(f"Error generating territory idea: {str(gen_error)}")
+            print(f"Error generating territory idea: {str(gen_error)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error generating territory idea: {str(gen_error)}"
+            )
+        
+        # Save the idea to the database
+        api_logger.info(f"Saving territory idea to database: {response.id}")
+        print(f"Saving territory idea to database: {response.id}")
+        
+        try:
+            # Convert the API response to CreativeIdea model
+            from ..knowledge_representation.models import CreativeIdea, ShockProfile
+            
+            creative_idea = CreativeIdea(
+                id=response.id,
+                description=response.idea,
+                generative_framework="conceptual_territories",
+                domain=request.domain,
+                impossibility_elements=[],
+                contradiction_elements=[],
+                related_concepts=[],
+                shock_metrics=response.shock_metrics
+            )
+            
+            # Save the idea using the repository
+            saved_idea = await repository.save_idea(creative_idea)
+            api_logger.info(f"Territory idea successfully saved to database: {saved_idea.id}")
+            print(f"Territory idea successfully saved to database: {saved_idea.id}")
+        except Exception as save_error:
+            # Log the error but still return the generated idea
+            api_logger.error(f"Error saving territory idea: {str(save_error)}")
+            print(f"Error saving territory idea: {str(save_error)}")
+        
+        # Return the generated idea
+        return response
+        
+    except Exception as e:
+        # Handle unexpected errors
+        api_logger.error(f"Unexpected error in territory idea endpoint: {str(e)}")
+        print(f"Unexpected error in territory idea endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/api/v1/meta/idea")

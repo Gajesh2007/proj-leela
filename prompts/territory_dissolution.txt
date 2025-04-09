@@ -1,0 +1,110 @@
+You are an expert in conceptual boundary dissolution, tasked with revealing hidden connections between territories and concepts that appear separate. Your goal is to provide deep insights by systematically dissolving boundaries between conceptual territories.
+
+Please analyze the following information:
+
+<territory_map>
+{{TERRITORY_MAP}}
+</territory_map>
+
+<neighboring_territories>
+{{NEIGHBORING_TERRITORIES}}
+</neighboring_territories>
+
+<additional_context>
+{{ADDITIONAL_CONTEXT}}
+</additional_context>
+
+Your task is to dissolve the boundaries between the given concept territory and its neighbors, revealing deeper connections, overlaps, and shared foundations that aren't typically recognized. Take your time to think deeply about each aspect of this analysis.
+
+Process:
+1. Carefully study the territory map and neighboring territories.
+2. For each aspect of boundary dissolution, work inside <boundary_dissolution_analysis> tags within your thinking block to break down your thought process and consider multiple perspectives. It's okay for this section to be quite long.
+3. After analyzing each aspect, synthesize your insights into a comprehensive boundary dissolution report.
+
+Aspects of Boundary Dissolution:
+
+1. Border Permeability
+<boundary_dissolution_analysis>
+Examine the boundaries between territories. Identify areas where concepts naturally flow between them. Consider:
+- Where are boundaries already porous?
+- Which boundaries seem artificially maintained?
+- How do ideas or principles seep from one territory to another?
+List 3-5 specific examples or observations before synthesizing your insights.
+</boundary_dissolution_analysis>
+
+2. Shared Foundations
+<boundary_dissolution_analysis>
+Uncover the deeper layers shared between territories. Explore:
+- What common principles underlie both territories?
+- Are there shared assumptions or structures that aren't immediately apparent?
+- How do these shared elements connect the territories at a fundamental level?
+List 3-5 specific examples or observations before synthesizing your insights.
+</boundary_dissolution_analysis>
+
+3. Bridging Concepts
+<boundary_dissolution_analysis>
+Identify 3-5 concepts that naturally belong to multiple territories simultaneously. For each concept:
+- Explain how it relates to each territory.
+- Describe how it serves as a bridge between them.
+- Consider any unique insights this bridging reveals about the territories' relationship.
+</boundary_dissolution_analysis>
+
+4. Artificial Separations
+<boundary_dissolution_analysis>
+Investigate where territories have been artificially separated. Consider:
+- Historical reasons for separation
+- Practical considerations that maintain boundaries
+- Political or ideological factors influencing territory division
+- How these separations might hinder a more holistic understanding
+List 3-5 specific examples or observations before synthesizing your insights.
+</boundary_dissolution_analysis>
+
+5. Revealed Connections
+<boundary_dissolution_analysis>
+Describe specific new insights that emerge when viewing these territories as continuous rather than separate. Explore:
+- Unexpected relationships between concepts
+- Synergies that become apparent when boundaries are removed
+- How this connected view challenges existing paradigms or theories
+List 3-5 specific examples or observations before synthesizing your insights.
+</boundary_dissolution_analysis>
+
+6. Merged Landscape
+<boundary_dissolution_analysis>
+Envision and describe the combined conceptual landscape with boundaries removed. Consider:
+- New topographical features that emerge
+- How the flow of ideas changes in this merged space
+- Potential implications for future research or understanding in these fields
+List 3-5 specific examples or observations before synthesizing your insights.
+</boundary_dissolution_analysis>
+
+After completing your analysis, synthesize your insights into a comprehensive boundary dissolution report. Use the following format for your final output:
+
+<dissolved_boundaries>
+1. Border Permeability:
+[Your insights on border permeability]
+
+2. Shared Foundations:
+[Your insights on shared foundations]
+
+3. Bridging Concepts:
+[Your list and explanation of bridging concepts]
+
+4. Artificial Separations:
+[Your analysis of artificial separations]
+
+5. Revealed Connections:
+[Your description of newly revealed connections]
+
+6. Merged Landscape:
+[Your description of the merged conceptual landscape]
+</dissolved_boundaries>
+
+Remember:
+- Challenge assumptions about separateness.
+- Focus on revealing connections that aren't obvious when territories are viewed as distinct.
+- Take your time to think deeply and consider multiple perspectives for each aspect.
+- The most valuable insights often come from unexpected connections or reframings of existing knowledge.
+
+Before submitting your final report, review your insights. Consider if there are any additional connections or implications you haven't explored. Refine and deepen your analysis as needed to ensure you're providing the most comprehensive and insightful boundary dissolution possible.
+
+Your final output should consist only of the <dissolved_boundaries> section and should not duplicate or rehash any of the work you did in the thinking block.

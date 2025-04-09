@@ -1,5 +1,7 @@
 """
 Explorer Module - Navigates probability fields of potential solutions through multi-perspective exploration.
+
+Implements prompts: explorer_agent_radical.txt, explorer_agent_conservative.txt, explorer_agent_alien.txt, explorer_agent_future.txt, explorer_synthesis.txt, temporal_framework_ancient.txt, temporal_framework_quantum.txt
 """
 from typing import Dict, List, Any, Optional, Tuple
 import uuid
@@ -11,6 +13,7 @@ from ..knowledge_representation.models import (
     CreativeIdea, ThinkingStep, ShockProfile
 )
 from ..directed_thinking.claude_api import ClaudeAPIClient, ExtendedThinkingManager
+from ..prompt_management import uses_prompt
 
 
 class PerspectiveType(Enum):
@@ -24,9 +27,16 @@ class PerspectiveType(Enum):
     ANTI_SYNTHESIS = "anti_synthesis"  # Maintains tensions
 
 
+@uses_prompt("explorer_synthesis", dependencies=["explorer_agent_radical", "explorer_agent_conservative", "explorer_agent_alien", "explorer_agent_future", "dialectic_synthesis"])
 class MultiAgentDialecticSystem:
     """
     Creates dialogues between opposing perspectives.
+    
+    This class implements the explorer_synthesis.txt prompt and multiple agent prompts to
+    generate ideas from different perspectives and synthesize them into novel approaches.
+    
+    Depends on prompts: explorer_agent_radical.txt, explorer_agent_conservative.txt, 
+    explorer_agent_alien.txt, explorer_agent_future.txt, dialectic_synthesis.txt
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -142,7 +152,36 @@ class MultiAgentDialecticSystem:
         Returns:
             str: The perspective prompt
         """
-        prompt = f"""Problem in {domain}: {problem_statement}
+        # Use the prompt_loader to get the appropriate perspective prompt
+        from ..prompt_management.prompt_loader import PromptLoader
+        prompt_loader = PromptLoader()
+        
+        # Determine which prompt template to use based on perspective name
+        prompt_template_map = {
+            "radical": "explorer_agent_radical",
+            "conservative": "explorer_agent_conservative",
+            "alien": "explorer_agent_alien",
+            "future": "explorer_agent_future"
+        }
+        
+        prompt_template = prompt_template_map.get(perspective_name.lower())
+        
+        if prompt_template:
+            # Use the specific perspective prompt template
+            prompt = prompt_loader.render_prompt(
+                prompt_template,
+                {
+                    "domain": domain,
+                    "problem_statement": problem_statement
+                }
+            )
+            
+            if not prompt:
+                # Fallback in case prompt loading fails
+                raise ValueError(f"Failed to load {prompt_template} prompt template")
+        else:
+            # If no specific template is available, use a generic format
+            prompt = f"""Problem in {domain}: {problem_statement}
 
 You are the {perspective_name.upper()} AGENT in a multi-agent dialectic system.
 
@@ -250,12 +289,33 @@ Think step by step, explaining how your perspective reveals insights and approac
         Returns:
             Tuple[ThinkingStep, str]: Synthesis thinking step and synthesized idea
         """
-        # Create a synthesis prompt
-        ideas_text = ""
-        for i, (idea, perspective) in enumerate(zip(perspective_ideas, perspective_types)):
-            ideas_text += f"Perspective {i+1} ({perspective.value.upper()}): {idea}\n\n"
+        # Use the prompt_loader to get the explorer_synthesis prompt
+        from ..prompt_management.prompt_loader import PromptLoader
+        prompt_loader = PromptLoader()
         
-        synthesis_prompt = f"""Problem in {domain}: {problem_statement}
+        # Create perspective dictionaries for the template
+        perspective_dict = {}
+        for i, (idea, perspective) in enumerate(zip(perspective_ideas, perspective_types)):
+            perspective_type = perspective.value.lower()
+            perspective_dict[f"{perspective_type}_perspective"] = idea
+        
+        # Add the problem statement to the context dictionary
+        perspective_dict["problem_statement"] = problem_statement
+        
+        # Render the prompt template with context
+        synthesis_prompt = prompt_loader.render_prompt(
+            "explorer_synthesis",
+            perspective_dict
+        )
+        
+        if not synthesis_prompt:
+            # Fallback in case prompt loading fails
+            # Create a fallback synthesis prompt
+            ideas_text = ""
+            for i, (idea, perspective) in enumerate(zip(perspective_ideas, perspective_types)):
+                ideas_text += f"Perspective {i+1} ({perspective.value.upper()}): {idea}\n\n"
+            
+            synthesis_prompt = f"""Problem in {domain}: {problem_statement}
 
 You've received these different perspectives on the problem:
 
@@ -286,9 +346,15 @@ Think step by step about how these different perspectives reveal different aspec
         return synthesis_step, synthesized_idea
 
 
+@uses_prompt("temporal_framework_ancient", dependencies=["temporal_framework_quantum"])
 class TemporalPerspectiveShifter:
     """
     Applies historical and future viewpoints to problems.
+    
+    This class implements the temporal_framework_ancient.txt and temporal_framework_quantum.txt
+    prompts to view problems through different historical and future frames of reference.
+    
+    Depends on prompt: temporal_framework_quantum.txt
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -377,6 +443,59 @@ class TemporalPerspectiveShifter:
         Returns:
             Tuple[ThinkingStep, str]: Thinking step and temporal perspective idea
         """
+        # Use the prompt_loader to get the appropriate temporal framework prompt
+        from ..prompt_management.prompt_loader import PromptLoader
+        prompt_loader = PromptLoader()
+        
+        # Determine which temporal framework to use
+        prompt_template = None
+        if era == "ancient":
+            prompt_template = "temporal_framework_ancient"
+        elif era == "future" or era == "post_singularity":
+            prompt_template = "temporal_framework_quantum"
+        
+        if prompt_template:
+            # Use the specific temporal framework prompt template
+            prompt = prompt_loader.render_prompt(
+                prompt_template,
+                {
+                    "domain": domain,
+                    "problem_statement": problem_statement,
+                    "era": era.replace('_', ' ')
+                }
+            )
+            
+            if not prompt:
+                # Fallback in case prompt loading fails
+                prompt = self._create_fallback_temporal_prompt(problem_statement, domain, era)
+        else:
+            # If no specific template is available, use a generic format
+            prompt = self._create_fallback_temporal_prompt(problem_statement, domain, era)
+        
+        # Generate thinking
+        thinking_step = await self.claude_client.generate_thinking(
+            prompt=prompt,
+            thinking_budget=thinking_budget,
+            max_tokens=4000
+        )
+        
+        # Extract temporal perspective idea
+        idea = self._extract_idea_description(thinking_step.reasoning_process)
+        
+        return thinking_step, idea
+        
+    def _create_fallback_temporal_prompt(self, problem_statement: str, domain: str, era: str) -> str:
+        """
+        Create a fallback temporal prompt if prompt loading fails.
+        
+        Args:
+            problem_statement: The problem statement
+            domain: The domain of the problem
+            era: The temporal era to apply
+            
+        Returns:
+            str: The temporal prompt
+        """
         # Get era paradigm
         era_paradigm = self.era_paradigms.get(era, "Unknown era paradigm")
         
@@ -399,17 +518,7 @@ Your solution should:
 
 Think step by step, exploring how the {era.replace('_', ' ')} perspective transforms the problem and opens novel solution paths."""
         
-        # Generate thinking
-        thinking_step = await self.claude_client.generate_thinking(
-            prompt=prompt,
-            thinking_budget=thinking_budget,
-            max_tokens=4000
-        )
-        
-        # Extract temporal perspective idea
-        idea = self._extract_idea_description(thinking_step.reasoning_process)
-        
-        return thinking_step, idea
+        return prompt
     
     def _extract_idea_description(self, thinking_text: str) -> str:
         """
@@ -477,9 +586,17 @@ Think step by step, exploring how the {era.replace('_', ' ')} perspective transf
         return thinking_text[-500:].strip()  # Last 500 characters
 
 
+@uses_prompt("explorer_synthesis", dependencies=["explorer_agent_radical", "explorer_agent_conservative", "explorer_agent_alien", "explorer_agent_future", "temporal_framework_ancient", "temporal_framework_quantum"])
 class ExplorerModule:
     """
     Navigates probability fields of potential solutions through multi-perspective exploration.
+    
+    This class coordinates the multi-agent dialectic system and temporal perspective shifting
+    to explore a problem space from multiple angles and generate novel solutions.
+    
+    Depends on prompts: explorer_agent_radical.txt, explorer_agent_conservative.txt,
+    explorer_agent_alien.txt, explorer_agent_future.txt, temporal_framework_ancient.txt,
+    temporal_framework_quantum.txt
     """
     
     def __init__(self, api_key: Optional[str] = None):

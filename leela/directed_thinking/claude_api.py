@@ -7,7 +7,25 @@ from typing import Dict, List, Any, Optional, Union
 import json
 import anthropic
 from ..config import get_config
-from ..knowledge_representation.models import ShockDirective, ThinkingStep
+# Using direct import to break circular dependency
+import uuid
+import datetime
+from typing import List, Dict, Any, Optional
+from pydantic import BaseModel, Field, UUID4
+
+# Define ThinkingStep and ShockDirective here instead of importing
+class ThinkingStep(BaseModel):
+    """Represents a single step in Claude's extended thinking process."""
+    id: UUID4 = Field(default_factory=uuid.uuid4)
+    step_type: str = Field(...)
+    reasoning_process: str = Field(...)
+    insights_generated: Optional[List[str]] = Field(default_factory=list)
+    
+class ShockDirective(BaseModel):
+    """Directive for controlling the shock value of generated ideas."""
+    impossibility_constraints: List[str] = Field(default_factory=list)
+    contradiction_requirements: List[str] = Field(default_factory=list)
+    shock_threshold: float = Field(0.6)
 from ..prompt_management.prompt_loader import PromptLoader
 
 
@@ -35,7 +53,7 @@ class ClaudeAPIClient:
     async def generate_thinking(self, 
                               prompt: str, 
                               thinking_budget: int = 16000,
-                              max_tokens: int = 20000) -> ThinkingStep:
+                              max_tokens: int = 40000) -> ThinkingStep:
         """
         Generate a thinking step using Claude's Extended Thinking capabilities.
         

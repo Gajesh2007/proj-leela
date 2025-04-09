@@ -44,16 +44,20 @@ class Repository:
         """
         return await self.db_manager.save_concept(concept)
     
-    async def get_concept(self, concept_id: uuid.UUID) -> Optional[Concept]:
+    async def get_concept(self, concept_id: Union[uuid.UUID, str]) -> Optional[Concept]:
         """
         Get a concept by ID.
         
         Args:
-            concept_id: The concept ID
+            concept_id: The concept ID (UUID or string)
             
         Returns:
             Optional[Concept]: The concept if found
         """
+        # Convert string ID to UUID if necessary
+        if isinstance(concept_id, str):
+            concept_id = uuid.UUID(concept_id)
+            
         return await self.db_manager.get_concept(concept_id)
     
     async def get_concepts_by_domain(self, domain: str) -> List[Concept]:
@@ -81,32 +85,40 @@ class Repository:
         """
         return await self.db_manager.save_relationship(relationship)
     
-    async def get_relationships_for_concept(self, concept_id: uuid.UUID) -> List[Relationship]:
+    async def get_relationships_for_concept(self, concept_id: Union[uuid.UUID, str]) -> List[Relationship]:
         """
         Get relationships for a concept.
         
         Args:
-            concept_id: The concept ID
+            concept_id: The concept ID (UUID or string)
             
         Returns:
             List[Relationship]: List of relationships
         """
+        # Convert string ID to UUID if necessary
+        if isinstance(concept_id, str):
+            concept_id = uuid.UUID(concept_id)
+            
         return await self.db_manager.get_relationships_for_concept(concept_id)
     
     # Creative idea operations
-    async def save_idea(self, idea: CreativeIdea, spiral_state_id: Optional[uuid.UUID] = None) -> CreativeIdea:
+    async def save_idea(self, idea: CreativeIdea, spiral_state_id: Optional[Union[uuid.UUID, str]] = None) -> CreativeIdea:
         """
         Save a creative idea.
         
         Args:
             idea: The idea to save
-            spiral_state_id: Optional spiral state ID
+            spiral_state_id: Optional spiral state ID (UUID or string)
             
         Returns:
             CreativeIdea: The saved idea
         """
         print(f"[Repository] Saving idea with ID: {idea.id}")
         try:
+            # Convert string ID to UUID if necessary
+            if spiral_state_id is not None and isinstance(spiral_state_id, str):
+                spiral_state_id = uuid.UUID(spiral_state_id)
+                
             saved_idea = await self.db_manager.save_creative_idea(idea, spiral_state_id)
             print(f"[Repository] Successfully saved idea: {idea.id}")
             return saved_idea
@@ -115,16 +127,20 @@ class Repository:
             # Re-raise the exception to allow the caller to handle it
             raise
     
-    async def get_idea(self, idea_id: uuid.UUID) -> Optional[CreativeIdea]:
+    async def get_idea(self, idea_id: Union[uuid.UUID, str]) -> Optional[CreativeIdea]:
         """
         Get an idea by ID.
         
         Args:
-            idea_id: The idea ID
+            idea_id: The idea ID (UUID or string)
             
         Returns:
             Optional[CreativeIdea]: The idea if found
         """
+        # Convert string ID to UUID if necessary
+        if isinstance(idea_id, str):
+            idea_id = uuid.UUID(idea_id)
+            
         return await self.db_manager.get_creative_idea(idea_id)
     
     async def get_ideas_by_framework(self, framework: str) -> List[CreativeIdea]:
@@ -170,17 +186,21 @@ class Repository:
     
     # Thinking step operations
     async def save_thinking_step(self, step: ThinkingStep, 
-                                spiral_state_id: Optional[uuid.UUID] = None) -> ThinkingStep:
+                                spiral_state_id: Optional[Union[uuid.UUID, str]] = None) -> ThinkingStep:
         """
         Save a thinking step.
         
         Args:
             step: The thinking step to save
-            spiral_state_id: Optional spiral state ID
+            spiral_state_id: Optional spiral state ID (UUID or string)
             
         Returns:
             ThinkingStep: The saved thinking step
         """
+        # Convert string ID to UUID if necessary
+        if spiral_state_id is not None and isinstance(spiral_state_id, str):
+            spiral_state_id = uuid.UUID(spiral_state_id)
+            
         return await self.db_manager.save_thinking_step(step, spiral_state_id)
     
     # Spiral state operations
@@ -196,16 +216,20 @@ class Repository:
         """
         return await self.db_manager.save_spiral_state(state)
     
-    async def get_spiral_state(self, state_id: uuid.UUID) -> Optional[SpiralState]:
+    async def get_spiral_state(self, state_id: Union[uuid.UUID, str]) -> Optional[SpiralState]:
         """
         Get a spiral state by ID.
         
         Args:
-            state_id: The spiral state ID
+            state_id: The spiral state ID (UUID or string)
             
         Returns:
             Optional[SpiralState]: The spiral state if found
         """
+        # Convert string ID to UUID if necessary
+        if isinstance(state_id, str):
+            state_id = uuid.UUID(state_id)
+            
         return await self.db_manager.get_spiral_state(state_id)
     
     async def get_latest_spiral_state(self) -> Optional[SpiralState]:

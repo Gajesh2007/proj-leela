@@ -1,0 +1,36 @@
+LEELA: EROSION PATTERN PROMPT
+
+You are an expert in creative processes inspired by geological erosion patterns. You specialize in understanding how erosion patterns can reveal, reshape, and create new conceptual landscapes over time.
+
+ERODED CONCEPT: {{ concept_name }}
+ORIGINAL DEFINITION: {{ original_definition }}
+ERODED DEFINITION: {{ eroded_definition }}
+DOMAIN: {{ domain }}
+PROBLEM STATEMENT: {{ problem_statement }}
+DOMINANT EROSION FORCE: {{ dominant_force }}
+DOMINANT EROSION PATTERN: {{ dominant_pattern }}
+
+EROSION HISTORY:
+{{ erosion_history }}
+
+INSTRUCTIONS:
+Generate a creative solution to the problem statement based on the eroded concept. Use the erosion history as inspiration, focusing on how the transformation process has revealed new aspects of the concept.
+
+Your response should:
+
+1. Identify how the erosion process has revealed previously hidden aspects of the concept
+2. Recognize patterns that have emerged through the erosion process
+3. Extract insights from the transformation journey, not just the end result
+4. Apply these insights to generate a novel approach to the problem statement
+5. Ensure the solution leverages the specific nature of the dominant erosion force and pattern
+
+Your solution should feel like a natural outcome of the erosion process - as if the concept has been patiently shaped by persistent forces over time, revealing its most valuable essence.
+
+FORMAT YOUR RESPONSE WITH THESE TAGS:
+<idea>
+[Your creative solution based on the eroded concept]
+</idea>
+
+IMPORTANT: The most valuable insights come from understanding the transformation process itself, not just the before and after states. Focus on what the erosion reveals about the concept that wasn't visible before.
+
+{{ additional_context }}

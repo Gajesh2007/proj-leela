@@ -11,8 +11,13 @@ from ..directed_thinking.claude_api import ClaudeAPIClient, ExtendedThinkingMana
 from ..shock_generation.impossibility_enforcer import ImpossibilityEnforcer
 from ..shock_generation.cognitive_dissonance_amplifier import CognitiveDissonanceAmplifier
 from ..knowledge_representation.superposition_engine import SuperpositionEngine
+from ..knowledge_representation.mycelial_network import MycelialNetwork, generate_mycelial_idea
+from ..knowledge_representation.conceptual_territories import (
+    ConceptualTerritoriesSystem, TransformationProcess, generate_territory_idea
+)
+from ..core_processing.erosion_engine import ErosionEngine, generate_eroded_idea
 from ..knowledge_representation.models import (
-    ShockDirective, CreativeIdea, ShockProfile, ThinkingStep
+    ShockDirective, CreativeIdea, ShockProfile, ThinkingStep, Concept
 )
 from ..config import get_config
 
@@ -51,8 +56,7 @@ class DialecticIdeaRequest(BaseModel):
     """
     domain: str = Field(..., description="Domain for idea generation")
     problem_statement: str = Field(..., description="Problem statement to generate ideas for")
-    perspectives: List[str] = Field(..., min_items=2, 
-                                  description="Perspectives for dialectic")
+    perspectives: List[str] = Field(..., description="Perspectives to use for dialectic")
     thinking_budget: int = Field(16000, ge=1000, description="Thinking budget in tokens")
 
 
@@ -62,10 +66,42 @@ class DialecticIdeaResponse(BaseModel):
     """
     id: UUID4 = Field(..., description="Unique identifier")
     synthesized_idea: str = Field(..., description="Synthesized idea")
-    shock_metrics: ShockProfile = Field(..., description="Shock metrics")
     perspective_ideas: List[str] = Field(..., description="Ideas from each perspective")
+    shock_metrics: ShockProfile = Field(..., description="Shock metrics")
     thinking_steps: List[ThinkingStep] = Field(default_factory=list, 
                                             description="Thinking steps")
+
+
+class MycelialIdeaRequest(BaseModel):
+    """
+    Request model for generating ideas using the Mycelial Network model.
+    """
+    domain: str = Field(..., description="Domain for idea generation")
+    problem_statement: str = Field(..., description="Problem statement to generate ideas for")
+    concept_definitions: List[str] = Field(..., description="Concept definitions to seed the network")
+    extension_rounds: int = Field(3, ge=1, le=10, description="Number of extension rounds")
+
+
+class ErodedIdeaRequest(BaseModel):
+    """
+    Request model for generating ideas using the Erosion Engine.
+    """
+    domain: str = Field(..., description="Domain for idea generation")
+    problem_statement: str = Field(..., description="Problem statement to generate ideas for")
+    concept_definition: str = Field(..., description="Definition of the concept to erode")
+    concept_name: str = Field("", description="Name of the concept (optional)")
+    erosion_stages: int = Field(3, ge=1, le=10, description="Number of erosion stages")
+
+
+class TerritoryIdeaRequest(BaseModel):
+    """
+    Request model for generating ideas using the Conceptual Territories System.
+    """
+    domain: str = Field(..., description="Domain for idea generation")
+    problem_statement: str = Field(..., description="Problem statement to generate ideas for")
+    concept_definition: str = Field(..., description="Definition of the concept to map as a territory")
+    concept_name: str = Field("", description="Name of the concept (optional)")
+    transformation_process: Optional[str] = Field(None, description="Transformation process to apply")
 
 
 class LeelaCoreAPI:
@@ -75,128 +111,126 @@ class LeelaCoreAPI:
     
     def __init__(self, api_key: Optional[str] = None):
         """
-        Initialize the Leela Core API.
+        Initialize the core API.
         
         Args:
-            api_key: Optional API key for Claude. If not provided, will try to get from config.
+            api_key: Optional API key to use. If not provided, reads from config.
         """
-        self.config = get_config()
-        self.api_key = api_key or self.config["api"]["anthropic_api_key"]
-        
-        # Initialize components
+        config = get_config()
+        self.api_key = api_key or config["api"]["anthropic_api_key"]
         self.claude_client = ClaudeAPIClient(self.api_key)
-        self.thinking_manager = ExtendedThinkingManager(self.api_key)
-        self.impossibility_enforcer = ImpossibilityEnforcer()
-        self.dissonance_amplifier = CognitiveDissonanceAmplifier()
-        self.superposition_engine = SuperpositionEngine()
+        self.thinking_manager = ExtendedThinkingManager(self.claude_client)
+        self.impossibility_enforcer = ImpossibilityEnforcer(self.api_key)
+        self.cognitive_dissonance_amplifier = CognitiveDissonanceAmplifier(self.api_key)
+        self.superposition_engine = SuperpositionEngine(self.api_key)
     
     async def generate_creative_idea(self, 
-                                   domain: str,
-                                   problem_statement: str,
-                                   impossibility_constraints: Optional[List[str]] = None,
-                                   contradiction_requirements: Optional[List[str]] = None,
-                                   shock_threshold: float = 0.6,
-                                   thinking_budget: int = 16000,
-                                   creative_framework: str = "impossibility_enforcer") -> CreativeIdeaResponse:
+                                  domain: str,
+                                  problem_statement: str,
+                                  impossibility_constraints: Optional[List[str]] = None,
+                                  contradiction_requirements: Optional[List[str]] = None,
+                                  shock_threshold: float = 0.6,
+                                  thinking_budget: int = 16000,
+                                  creative_framework: str = "impossibility_enforcer") -> CreativeIdeaResponse:
         """
         Generate a creative idea.
         
         Args:
-            domain: Domain for idea generation
-            problem_statement: Problem statement to generate ideas for
-            impossibility_constraints: Impossibility constraints to include
-            contradiction_requirements: Contradiction requirements to include
-            shock_threshold: Minimum shock threshold
-            thinking_budget: Thinking budget in tokens
-            creative_framework: Creative framework to use
+            domain: Domain for idea generation.
+            problem_statement: Problem statement to generate ideas for.
+            impossibility_constraints: Optional impossibility constraints to include.
+            contradiction_requirements: Optional contradiction requirements to include.
+            shock_threshold: Minimum shock threshold (0.0-1.0).
+            thinking_budget: Thinking budget in tokens.
+            creative_framework: Creative framework to use.
             
         Returns:
-            CreativeIdeaResponse: The generated creative idea
+            CreativeIdeaResponse: The generated creative idea.
         """
-        # Prepare impossibility constraints
-        if not impossibility_constraints and domain in self.config["domain_impossibilities"]:
-            # Use domain-specific impossibility constraints from config
-            impossibility_constraints = self.config["domain_impossibilities"][domain]
-        elif not impossibility_constraints:
-            impossibility_constraints = []
-        
-        # Prepare contradiction requirements
-        if not contradiction_requirements:
-            contradiction_requirements = []
+        impossibility_constraints = impossibility_constraints or []
+        contradiction_requirements = contradiction_requirements or []
         
         # Create shock directive
-        directive = ShockDirective(
-            id=uuid.uuid4(),
-            shock_framework=creative_framework,
-            problem_domain=domain,
+        shock_directive = ShockDirective(
             impossibility_constraints=impossibility_constraints,
             contradiction_requirements=contradiction_requirements,
-            antipattern_instructions=f"Violate conventional patterns in {domain}.",
-            thinking_instructions=f"Think about how to solve the following problem in a way that violates conventional assumptions: {problem_statement}",
-            minimum_shock_threshold=shock_threshold,
-            thinking_budget=thinking_budget
+            shock_threshold=shock_threshold
         )
         
-        # Execute the directive
-        thinking_step = await self.claude_client.execute_shock_directive(directive)
-        
-        # Generate creative idea based on framework
-        creative_idea = None
+        # Generate idea based on the selected framework
         if creative_framework == "impossibility_enforcer":
-            creative_idea = self.impossibility_enforcer.enforce_impossibility(
-                thinking_step, domain, impossibility_constraints, shock_threshold
+            idea = await self.impossibility_enforcer.generate_idea(
+                domain=domain,
+                problem_statement=problem_statement,
+                shock_directive=shock_directive,
+                thinking_budget=thinking_budget
             )
+            thinking_steps = idea.thinking_steps
         elif creative_framework == "cognitive_dissonance_amplifier":
-            creative_idea = self.dissonance_amplifier.amplify_dissonance(
-                thinking_step, domain, contradiction_requirements
+            idea = await self.cognitive_dissonance_amplifier.generate_idea(
+                domain=domain,
+                problem_statement=problem_statement,
+                shock_directive=shock_directive,
+                thinking_budget=thinking_budget
             )
+            thinking_steps = idea.thinking_steps
         else:
-            # Default to impossibility enforcer
-            creative_idea = self.impossibility_enforcer.enforce_impossibility(
-                thinking_step, domain, impossibility_constraints, shock_threshold
-            )
+            raise ValueError(f"Unknown creative framework: {creative_framework}")
         
         # Prepare response
         response = CreativeIdeaResponse(
-            id=creative_idea.id,
-            idea=creative_idea.description,
-            framework=creative_idea.generative_framework,
-            shock_metrics=creative_idea.shock_metrics,
-            thinking_steps=[thinking_step]
+            id=idea.id,
+            idea=idea.description,
+            framework=creative_framework,
+            shock_metrics=idea.shock_metrics,
+            thinking_steps=thinking_steps
         )
         
         return response
     
     async def generate_dialectic_idea(self,
-                                    domain: str,
-                                    problem_statement: str,
-                                    perspectives: List[str],
-                                    thinking_budget: int = 16000) -> DialecticIdeaResponse:
+                                   domain: str,
+                                   problem_statement: str,
+                                   perspectives: List[str],
+                                   thinking_budget: int = 16000) -> DialecticIdeaResponse:
         """
-        Generate an idea through dialectic thinking from multiple perspectives.
+        Generate a creative idea through dialectic between different perspectives.
         
         Args:
-            domain: Domain for idea generation
-            problem_statement: Problem statement to generate ideas for
-            perspectives: Perspectives for dialectic
-            thinking_budget: Thinking budget in tokens
+            domain: Domain for idea generation.
+            problem_statement: Problem statement to generate ideas for.
+            perspectives: List of perspectives to use for dialectic.
+            thinking_budget: Thinking budget in tokens.
             
         Returns:
-            DialecticIdeaResponse: The generated dialectic idea
+            DialecticIdeaResponse: The generated dialectic idea.
         """
-        # Generate thinking from multiple perspectives
-        # Ensure max_tokens is greater than thinking_budget
-        max_tokens_value = thinking_budget + 1000
+        # Calculate thinking budget per perspective
+        per_perspective_budget = thinking_budget // (len(perspectives) + 1)  # +1 for synthesis
         
-        thinking_steps = await self.thinking_manager.dialectic_thinking(
-            prompt=f"Generate a creative solution to the following problem in {domain}: {problem_statement}",
-            perspectives=perspectives,
-            thinking_budget=thinking_budget,
-            max_tokens=max_tokens_value
-        )
+        # Max tokens for each generation, could be configurable
+        max_tokens_value = 2000
         
-        # Extract ideas from thinking steps
+        # Generate ideas from each perspective
+        thinking_steps = []
         perspective_ideas = []
+        
+        for perspective in perspectives:
+            prompt = (
+                f"You are adopting a {perspective} perspective. "
+                f"Generate a creative idea for this problem in {domain}: {problem_statement}\n\n"
+                f"Be true to the {perspective} perspective, with its unique worldview, values, and approaches."
+            )
+            
+            # Generate thinking
+            step = await self.claude_client.generate_thinking(
+                prompt=prompt,
+                thinking_budget=per_perspective_budget,
+                max_tokens=max_tokens_value
+            )
+            thinking_steps.append(step)
+        
+        # Extract ideas from each thinking step
         for step in thinking_steps:
             # Use same extraction method as in impossibility enforcer
             idea = self.impossibility_enforcer._extract_idea_description(step.reasoning_process)
@@ -242,6 +276,153 @@ class LeelaCoreAPI:
             shock_metrics=shock_profile,
             perspective_ideas=perspective_ideas,
             thinking_steps=all_steps
+        )
+        
+        return response
+        
+    async def generate_mycelial_idea(self,
+                                  domain: str,
+                                  problem_statement: str,
+                                  concept_definitions: List[str],
+                                  extension_rounds: int = 3) -> CreativeIdeaResponse:
+        """
+        Generate a creative idea using the Mycelial Network model.
+        
+        Args:
+            domain: Domain for idea generation.
+            problem_statement: Problem statement to address.
+            concept_definitions: List of concept definitions to seed the network.
+            extension_rounds: Number of extension rounds to perform.
+            
+        Returns:
+            CreativeIdeaResponse: The generated creative idea.
+        """
+        # Create concepts from definitions
+        concepts = []
+        for i, definition in enumerate(concept_definitions):
+            concept = Concept(
+                id=uuid.uuid4(),
+                name=f"Concept {i+1}",
+                domain=domain,
+                definition=definition
+            )
+            concepts.append(concept)
+        
+        # Generate idea using mycelial network
+        idea = await generate_mycelial_idea(
+            problem_statement=problem_statement,
+            domain=domain,
+            concepts=concepts,
+            extension_rounds=extension_rounds
+        )
+        
+        # Prepare response
+        response = CreativeIdeaResponse(
+            id=idea.id,
+            idea=idea.description,
+            framework="mycelial_network",
+            shock_metrics=idea.shock_metrics,
+            thinking_steps=[]  # Mycelial network doesn't generate thinking steps in the same way
+        )
+        
+        return response
+    
+    async def generate_eroded_idea(self,
+                                domain: str,
+                                problem_statement: str,
+                                concept_definition: str,
+                                concept_name: str = "",
+                                erosion_stages: int = 3) -> CreativeIdeaResponse:
+        """
+        Generate a creative idea using the Erosion Engine.
+        
+        Args:
+            domain: Domain for idea generation.
+            problem_statement: Problem statement to address.
+            concept_definition: Definition of the concept to erode.
+            concept_name: Name of the concept (optional).
+            erosion_stages: Number of erosion stages to apply.
+            
+        Returns:
+            CreativeIdeaResponse: The generated creative idea.
+        """
+        # Create concept
+        concept = Concept(
+            id=uuid.uuid4(),
+            name=concept_name or f"Concept for {domain}",
+            domain=domain,
+            definition=concept_definition
+        )
+        
+        # Generate idea using erosion engine
+        idea = await generate_eroded_idea(
+            problem_statement=problem_statement,
+            domain=domain,
+            concept=concept,
+            erosion_stages=erosion_stages
+        )
+        
+        # Prepare response
+        response = CreativeIdeaResponse(
+            id=idea.id,
+            idea=idea.description,
+            framework="erosion_engine",
+            shock_metrics=idea.shock_metrics,
+            thinking_steps=[]  # Erosion engine doesn't generate thinking steps in the same way
+        )
+        
+        return response
+    
+    async def generate_territory_idea(self,
+                                   domain: str,
+                                   problem_statement: str,
+                                   concept_definition: str,
+                                   concept_name: str = "",
+                                   transformation_process: Optional[str] = None) -> CreativeIdeaResponse:
+        """
+        Generate a creative idea using the Conceptual Territories System.
+        
+        Args:
+            domain: Domain for idea generation.
+            problem_statement: Problem statement to address.
+            concept_definition: Definition of the concept to map as a territory.
+            concept_name: Name of the concept (optional).
+            transformation_process: Name of the transformation process to apply (optional).
+            
+        Returns:
+            CreativeIdeaResponse: The generated creative idea.
+        """
+        # Create concept
+        concept = Concept(
+            id=uuid.uuid4(),
+            name=concept_name or f"Concept for {domain}",
+            domain=domain,
+            definition=concept_definition
+        )
+        
+        # Determine transformation process if specified
+        process = None
+        if transformation_process:
+            try:
+                process = TransformationProcess[transformation_process.upper()]
+            except KeyError:
+                pass
+        
+        # Generate idea using conceptual territories
+        idea = await generate_territory_idea(
+            problem_statement=problem_statement,
+            domain=domain,
+            concept=concept,
+            transformation_process=process
+        )
+        
+        # Prepare response
+        response = CreativeIdeaResponse(
+            id=idea.id,
+            idea=idea.description,
+            framework="conceptual_territories",
+            shock_metrics=idea.shock_metrics,
+            thinking_steps=[]  # Territories system doesn't generate thinking steps in the same way
         )
         
         return response

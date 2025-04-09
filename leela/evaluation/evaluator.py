@@ -1,5 +1,7 @@
 """
 Evaluator Module - Causes measurement-induced collapse into concrete ideas through multi-dimensional evaluation.
+
+Implements prompt: evaluator_multidimensional.txt
 """
 from typing import Dict, List, Any, Optional, Tuple
 import uuid
@@ -11,11 +13,16 @@ from ..knowledge_representation.models import (
 )
 from ..knowledge_representation.superposition_engine import SuperpositionEngine
 from ..directed_thinking.claude_api import ClaudeAPIClient
+from ..prompt_management import uses_prompt
 
 
+@uses_prompt("evaluator_multidimensional")
 class TraditionalEvaluationSystem:
     """
     Applies conventional metrics to evaluate ideas.
+    
+    This class implements part of the evaluator_multidimensional.txt prompt to assess
+    ideas using conventional metrics like novelty, feasibility, and utility.
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -106,9 +113,13 @@ Finally, calculate an overall traditional value score as the average of all metr
         return metrics
 
 
+@uses_prompt("evaluator_multidimensional")
 class InverseEvaluationSystem:
     """
     Applies deliberately reversed metrics to evaluate ideas.
+    
+    This class implements part of the evaluator_multidimensional.txt prompt to assess
+    ideas using inverse metrics that value paradigm disruption and productive impossibility.
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -203,9 +214,13 @@ Finally, calculate an overall inverse value score as the average of all metrics.
         return metrics
 
 
+@uses_prompt("evaluator_multidimensional")
 class SurpriseCalculator:
     """
     Measures unexpectedness of solutions.
+    
+    This class implements part of the evaluator_multidimensional.txt prompt to assess
+    how surprising and unexpected an idea would be to domain experts.
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -293,9 +308,13 @@ Provide:
         return 0.5
 
 
+@uses_prompt("evaluator_multidimensional")
 class GenerativityAssessor:
     """
     Evaluates a solution's ability to spawn further ideas.
+    
+    This class implements part of the evaluator_multidimensional.txt prompt to assess
+    how well an idea can generate new ideas and open up solution spaces.
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -408,9 +427,16 @@ Format:
         return generativity_score, spinoff_ideas[:5]  # Limit to 5 ideas
 
 
+@uses_prompt("evaluator_multidimensional", dependencies=["quantum_superposition"])
 class EvaluatorModule:
     """
     Causes measurement-induced collapse into concrete ideas through multi-dimensional evaluation.
+    
+    This class coordinates multiple evaluation approaches to comprehensively assess ideas
+    across both traditional and inverse dimensions, causing measurement-induced collapse
+    of quantum superpositions into concrete ideas.
+    
+    Depends on prompt: quantum_superposition.txt
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -428,6 +454,7 @@ class EvaluatorModule:
         self.inverse_evaluator = InverseEvaluationSystem(self.api_key)
         self.surprise_calculator = SurpriseCalculator(self.api_key)
         self.generativity_assessor = GenerativityAssessor(self.api_key)
+        self.claude_client = ClaudeAPIClient(self.api_key)
         self.superposition_engine = SuperpositionEngine()
     
     async def evaluate(self, idea: CreativeIdea, domain: str) -> Dict[str, Any]:
@@ -443,7 +470,187 @@ class EvaluatorModule:
         """
         # Store description for evaluation
         description = idea.description
+        problem_statement = "Unknown problem" if not hasattr(idea, "problem_statement") else idea.problem_statement
         
+        # Use the multidimensional evaluation prompt directly for comprehensive assessment
+        from ..prompt_management.prompt_loader import PromptLoader
+        prompt_loader = PromptLoader()
+        
+        # Render the prompt template with context
+        multidimensional_prompt = prompt_loader.render_prompt(
+            "evaluator_multidimensional",
+            {
+                "solution": description,
+                "domain": domain,
+                "problem_statement": problem_statement
+            }
+        )
+        
+        if not multidimensional_prompt:
+            # Fallback: Run individual evaluations in parallel
+            return await self._legacy_evaluate(idea, domain, description)
+        
+        # Generate comprehensive evaluation thinking
+        evaluation_thinking = await self.claude_client.generate_thinking(
+            prompt=multidimensional_prompt,
+            thinking_budget=16000,
+            max_tokens=20000  # Ensure max_tokens > thinking_budget
+        )
+        
+        # Extract evaluation results from thinking
+        evaluation_results = self._extract_evaluation_results(evaluation_thinking.reasoning_process)
+        
+        # If extraction fails, fall back to legacy evaluation
+        if not evaluation_results or "dimensional_scores" not in evaluation_results:
+            return await self._legacy_evaluate(idea, domain, description)
+        
+        # Extract shock profile
+        shock_profile_dict = evaluation_results.get("shock_profile", {})
+        
+        # Update the idea's shock profile
+        updated_shock_profile = ShockProfile(
+            novelty_score=shock_profile_dict.get("novelty_score", 0.8),
+            contradiction_score=shock_profile_dict.get("contradiction_score", 0.7),
+            impossibility_score=shock_profile_dict.get("impossibility_score", 0.8),
+            utility_potential=shock_profile_dict.get("utility_potential", 0.6),
+            expert_rejection_probability=shock_profile_dict.get("expert_rejection_probability", 0.7),
+            composite_shock_value=shock_profile_dict.get("composite_shock_value", 0.75)
+        )
+        
+        # Create the collapsed idea
+        collapsed_idea = CreativeIdea(
+            id=idea.id,
+            description=idea.description,
+            generative_framework=idea.generative_framework,
+            domain=idea.domain,
+            impossibility_elements=idea.impossibility_elements,
+            contradiction_elements=idea.contradiction_elements,
+            related_concepts=idea.related_concepts,
+            shock_metrics=updated_shock_profile
+        )
+        
+        # Add the collapsed idea to the results
+        evaluation_results["collapsed_idea"] = collapsed_idea
+        
+        # Add thinking to results for debugging
+        evaluation_results["thinking"] = evaluation_thinking.reasoning_process
+        
+        return evaluation_results
+    
+    def _extract_evaluation_results(self, thinking_text: str) -> Dict[str, Any]:
+        """
+        Extract evaluation results from thinking text.
+        
+        Args:
+            thinking_text: The thinking text to extract from
+            
+        Returns:
+            Dict[str, Any]: Structured evaluation results
+        """
+        import re
+        import json
+        
+        result = {}
+        
+        # Extract content between the <evaluation_results> tags
+        eval_match = re.search(r'<evaluation_results>(.*?)</evaluation_results>', thinking_text, re.DOTALL)
+        if not eval_match:
+            return result
+        
+        eval_text = eval_match.group(1).strip()
+        
+        # Extract dimensional scores
+        dimensional_match = re.search(r'<dimensional_scores>(.*?)</dimensional_scores>', eval_text, re.DOTALL)
+        if dimensional_match:
+            dimensional_text = dimensional_match.group(1).strip()
+            
+            # Parse dimensional scores
+            scores = {}
+            score_pattern = r'- (\w+(?:\s+\w+)*?):\s*(0\.\d+|1\.0)\s*-\s*(.*?)(?=\n-|\n\n|$)'
+            score_matches = re.findall(score_pattern, dimensional_text, re.DOTALL)
+            
+            for dimension, score, explanation in score_matches:
+                dimension_key = dimension.lower().replace(' ', '_')
+                scores[dimension_key] = {
+                    "score": float(score),
+                    "explanation": explanation.strip()
+                }
+            
+            result["dimensional_scores"] = scores
+        
+        # Extract key strengths
+        strengths_match = re.search(r'<key_strengths>(.*?)</key_strengths>', eval_text, re.DOTALL)
+        if strengths_match:
+            strengths_text = strengths_match.group(1).strip()
+            
+            # Parse strengths list
+            strengths = []
+            strength_pattern = r'(?:^\d+\.|\n\d+\.|-)\s*(.*?)(?=\n\d+\.|\n-|$)'
+            strength_matches = re.findall(strength_pattern, strengths_text, re.DOTALL)
+            
+            for strength in strength_matches:
+                strengths.append(strength.strip())
+            
+            result["key_strengths"] = strengths
+        
+        # Extract key limitations
+        limitations_match = re.search(r'<key_limitations>(.*?)</key_limitations>', eval_text, re.DOTALL)
+        if limitations_match:
+            limitations_text = limitations_match.group(1).strip()
+            
+            # Parse limitations list
+            limitations = []
+            limitation_pattern = r'(?:^\d+\.|\n\d+\.|-)\s*(.*?)(?=\n\d+\.|\n-|$)'
+            limitation_matches = re.findall(limitation_pattern, limitations_text, re.DOTALL)
+            
+            for limitation in limitation_matches:
+                limitations.append(limitation.strip())
+            
+            result["key_limitations"] = limitations
+        
+        # Extract transformative potential
+        transformative_match = re.search(r'<transformative_potential>(.*?)</transformative_potential>', 
+                                      eval_text, re.DOTALL)
+        if transformative_match:
+            result["transformative_potential"] = transformative_match.group(1).strip()
+        
+        # Extract shock profile
+        shock_match = re.search(r'<shock_profile>(.*?)</shock_profile>', eval_text, re.DOTALL)
+        if shock_match:
+            shock_text = shock_match.group(1).strip()
+            
+            # Try to parse as JSON
+            try:
+                # Clean up the text to make it valid JSON
+                json_text = re.sub(r'//.*', '', shock_text)  # Remove comments
+                json_text = re.sub(r',\s*}', '}', json_text)  # Remove trailing commas
+                shock_profile = json.loads(json_text)
+                result["shock_profile"] = shock_profile
+            except:
+                # If parsing fails, extract individual metrics
+                shock_profile = {}
+                shock_pattern = r'"(\w+(?:_\w+)*)"\s*:\s*(0\.\d+|1\.0)'
+                shock_matches = re.findall(shock_pattern, shock_text)
+                
+                for metric, value in shock_matches:
+                    shock_profile[metric] = float(value)
+                
+                result["shock_profile"] = shock_profile
+        
+        return result
+    
+    async def _legacy_evaluate(self, idea: CreativeIdea, domain: str, description: str) -> Dict[str, Any]:
+        """
+        Legacy evaluation method using individual components.
+        
+        Args:
+            idea: The idea to evaluate
+            domain: The domain of the idea
+            description: The idea description text
+            
+        Returns:
+            Dict[str, Any]: Comprehensive evaluation results
+        """
         # Run evaluations in parallel
         traditional_metrics_task = self.traditional_evaluator.evaluate(description, domain)
         inverse_metrics_task = self.inverse_evaluator.evaluate(description, domain)
@@ -494,6 +701,7 @@ class EvaluatorModule:
             id=idea.id,
             description=idea.description,
             generative_framework=idea.generative_framework,
+            domain=idea.domain if hasattr(idea, "domain") else domain,
             impossibility_elements=idea.impossibility_elements,
             contradiction_elements=idea.contradiction_elements,
             related_concepts=idea.related_concepts,

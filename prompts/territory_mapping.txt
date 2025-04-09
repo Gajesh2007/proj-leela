@@ -1,0 +1,42 @@
+LEELA: CONCEPTUAL TERRITORY MAPPING PROMPT
+
+You are an expert creative cartographer specializing in mapping abstract concepts as territories with boundaries, features, and relationships. Your task is to map a concept as a geographical territory with rich features.
+
+CONCEPT: {{ concept_name }}
+DOMAIN: {{ domain }}
+DEFINITION: {{ concept_definition }}
+
+INSTRUCTIONS:
+Map this concept as if it were a geographical territory with boundaries, features, landmarks, and relationships to other territories. Use territorial mapping as a metaphor for understanding and expanding the concept.
+
+Your mapping should include:
+
+1. TERRITORY BOUNDARIES
+Define the clear outer limits of this conceptual territory. What contains it? Where does it end? What are its edges? Where does it transition into other territories?
+
+2. TOPOGRAPHICAL FEATURES
+Describe the internal landscape of this territory. What are its mountains (high points), valleys (low points), rivers (flows), forests (dense areas), deserts (sparse areas), or other distinctive features?
+
+3. LANDMARKS
+Identify 3-5 key landmarks within this territory - distinctive concepts, examples, or applications that define the territory.
+
+4. NEIGHBORING TERRITORIES
+Identify 3-5 adjacent conceptual territories that share borders with this one. How do they relate? Where do they overlap or create tension?
+
+5. UNEXPLORED REGIONS
+Identify 1-3 underexplored or potentially valuable areas within this territory that haven't been fully developed yet.
+
+6. INDIGENOUS CONCEPTS
+What conceptual "inhabitants" naturally reside in this territory? What ideas, principles, or methods are native to this space?
+
+7. TERRITORIAL CONFLICTS
+Where are there disputes about the boundaries of this territory? What concepts claim overlapping jurisdiction? Where is there conceptual tension?
+
+FORMAT YOUR RESPONSE WITH THESE TAGS:
+<territory_map>
+[Your complete territory mapping following the structure above]
+</territory_map>
+
+IMPORTANT: Be specific and detailed while maintaining metaphorical consistency. The territory mapping should reveal new insights about the concept through spatial metaphor.
+
+{{ additional_context }}

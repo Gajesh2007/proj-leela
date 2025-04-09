@@ -1,17 +1,24 @@
 """
 Impossibility Enforcer Module - Ensures outputs contain elements that experts 
 would consider impossible.
+
+Implements prompt: impossibility_enforcer.txt
 """
 from typing import Dict, List, Any, Optional
 import uuid
 from pydantic import UUID4
 from ..config import get_config
 from ..knowledge_representation.models import ShockDirective, ThinkingStep, CreativeIdea, ShockProfile
+from ..prompt_management import uses_prompt
 
 
+@uses_prompt("impossibility_enforcer")
 class ImpossibilityEnforcer:
     """
     Ensures that generated ideas contain elements that experts would consider impossible.
+    
+    This class implements the impossibility_enforcer.txt prompt to generate ideas
+    that violate established domain constraints.
     """
     
     def __init__(self, domain_impossibilities: Optional[Dict[str, List[str]]] = None):

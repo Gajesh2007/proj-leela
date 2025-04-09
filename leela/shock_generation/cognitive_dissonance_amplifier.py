@@ -1,17 +1,26 @@
 """
 Cognitive Dissonance Amplifier - Forces contradictory yet simultaneously necessary 
 concepts to coexist.
+
+Implements prompt: cognitive_dissonance_amplifier.txt
 """
 from typing import Dict, List, Any, Optional, Tuple
 import uuid
 import random
 from pydantic import UUID4
 from ..knowledge_representation.models import ShockDirective, ThinkingStep, CreativeIdea, ShockProfile
+from ..prompt_management import uses_prompt
 
 
+@uses_prompt("cognitive_dissonance_amplifier", dependencies=["dialectic_synthesis"])
 class CognitiveDissonanceAmplifier:
     """
     Forces contradictory yet simultaneously necessary concepts to coexist in creative ideas.
+    
+    This class implements the cognitive_dissonance_amplifier.txt prompt to generate
+    ideas that embrace opposing concepts simultaneously, creating productive tension.
+    
+    Depends on prompt: dialectic_synthesis.txt
     """
     
     def __init__(self):

@@ -52,6 +52,28 @@ class PromptLoader:
         except Exception as e:
             print(f"Error loading prompt template '{prompt_name}': {e}")
             return None
+            
+    def load_prompt_content(self, prompt_name: str) -> Optional[str]:
+        """
+        Load a prompt content by name.
+        
+        Args:
+            prompt_name: Name of the prompt template
+            
+        Returns:
+            Optional[str]: The prompt content, or None if not found
+        """
+        prompt_path = self.prompts_dir / f"{prompt_name}.txt"
+        
+        if not prompt_path.exists():
+            return None
+        
+        try:
+            with open(prompt_path, "r") as f:
+                return f.read()
+        except Exception as e:
+            print(f"Error loading prompt content '{prompt_name}': {e}")
+            return None
     
     def render_prompt(self, prompt_name: str, context: Dict[str, Any]) -> Optional[str]:
         """
