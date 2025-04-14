@@ -14,7 +14,8 @@ from enum import Enum, auto
 import logging
 
 from ..config import get_config
-from ..directed_thinking.claude_api import ClaudeAPIClient
+# Imported where needed to avoid circular imports
+# from ..directed_thinking.claude_api import ClaudeAPIClient
 from ..prompt_management.prompt_loader import PromptLoader
 from ..prompt_management import uses_prompt
 from ..knowledge_representation.models import (
@@ -431,6 +432,8 @@ class ConceptualTerritoriesSystem:
         """
         config = get_config()
         self.api_key = api_key or config["api"]["anthropic_api_key"]
+        # Import here to avoid circular import
+        from ..directed_thinking.claude_api import ClaudeAPIClient
         self.claude_client = ClaudeAPIClient(self.api_key)
         self.prompt_loader = PromptLoader()
         

@@ -15,7 +15,8 @@ import logging
 import asyncio
 
 from ..config import get_config
-from ..directed_thinking.claude_api import ClaudeAPIClient
+# Import this later to avoid circular import
+# from ..directed_thinking.claude_api import ClaudeAPIClient
 from ..prompt_management.prompt_loader import PromptLoader
 from ..prompt_management import uses_prompt
 from ..knowledge_representation.models import (
@@ -182,6 +183,8 @@ class MycelialNetwork:
         """
         config = get_config()
         self.api_key = api_key or config["api"]["anthropic_api_key"]
+        # Import here to avoid circular import
+        from ..directed_thinking.claude_api import ClaudeAPIClient
         self.claude_client = ClaudeAPIClient(self.api_key)
         self.prompt_loader = PromptLoader()
         
@@ -1000,7 +1003,8 @@ async def generate_mycelial_idea(
     problem_statement: str,
     domain: str,
     concepts: List[Concept],
-    extension_rounds: int = 3
+    extension_rounds: int = 3,
+    api_key: Optional[str] = None
 ) -> CreativeIdea:
     """
     Generate a creative idea using the mycelial network model.
@@ -1010,6 +1014,7 @@ async def generate_mycelial_idea(
         domain: Domain of the problem.
         concepts: List of concepts to seed the network with.
         extension_rounds: Number of extension rounds to perform.
+        api_key: Optional API key for Claude API.
         
     Returns:
         CreativeIdea: The generated creative idea.
@@ -1018,7 +1023,7 @@ async def generate_mycelial_idea(
         raise ValueError("At least one concept is required to seed the network")
     
     # Create the mycelial network
-    network = MycelialNetwork()
+    network = MycelialNetwork(api_key=api_key)
     
     # Seed the network with the concepts
     seed_results = []

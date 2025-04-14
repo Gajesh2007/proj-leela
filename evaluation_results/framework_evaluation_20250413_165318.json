@@ -1,0 +1,428 @@
+{
+  "domain_results": {
+    "education": {
+      "domain": "education",
+      "problem": "How might we make learning more engaging for students?",
+      "framework_results": {
+        "disruptor": {
+          "framework": "disruptor",
+          "domain": "education",
+          "problem": "How might we make learning more engaging for students?",
+          "idea": {
+            "id": "32031ffa-c1c8-4113-93b3-c684ce106d01",
+            "framework": "disruptor",
+            "idea": "Here's my final revolutionary idea:",
+            "domain": "education",
+            "problem_statement": "How might we make learning more engaging for students?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_165401",
+            "thinking_steps": [
+              {
+                "reasoning": "Let me approach this problem step by step to generate a shocking, novel idea that violates established assumptions in education while ensuring it contains hidden value.\n\nFirst, I need to identify the established assumptions in education:\n\n1. Teachers are necessary for learning\n2. Learning happens in...",
+                "insights": [
+                  "Success is measured by \"cognitive immunity strength\" - how effectively students can function within paradox, defend multiple contradictory positions with equal conviction, and generate novel synthesizing perspectives."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.6,
+              "feasibility": 0.5,
+              "utility": 0.5,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.0,
+              "initial_expert_rejection": 0.8,
+              "temporal_displacement": 0.7,
+              "cognitive_dissonance": 0.6
+            },
+            "surprise_score": 0.75,
+            "generativity_score": 0.65,
+            "composite_shock_value": 0.45499999999999996
+          }
+        },
+        "connector": {
+          "framework": "connector",
+          "domain": "education",
+          "problem": "How might we make learning more engaging for students?",
+          "idea": {
+            "id": "42360367-aa13-40ba-8518-d98fc10ebe8d",
+            "framework": "connector",
+            "idea": "# The Dreamscape Academy: Unconscious Learning Revolution\n\nTransform education by making sleep the primary learning environment. Students spend 3-4 hours daily in neurotechnology-enhanced \"dream pods\" where calibrated sensory inputs deliver educational content during optimal sleep phases. Brain-computer interfaces monitor and adjust delivery based on neural activity.\n\nWaking hours become solely dedicated to physical embodiment of knowledge, creative expression, and social application of what was unconsciously absorbed. Traditional teachers are replaced by \"Neural Orchestrators\" who design personalized sleep-learning sequences and facilitate waking integration activities.\n\nAssessment happens through brain pattern analysis and practical application rather than testing. Students never study, read textbooks, or do homework in the conventional sense - their conscious mind is freed from the burden of information acquisition, focusing instead on implementation and innovation with knowledge that was neurologically embedded during sleep.\n\nThis model leverages mounting evidence that the brain processes and consolidates information during sleep, potentially increasing learning efficiency by 300-400% while eliminating traditional barriers like attention deficits, classroom management issues, and educational inequality based on conscious learning styles.",
+            "domain": "education",
+            "problem_statement": "How might we make learning more engaging for students?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_165450",
+            "thinking_steps": [
+              {
+                "reasoning": "Alright, I'm asked to generate a shocking, novel idea that violates established assumptions in education, specifically about making learning more engaging for students. Let me break this down step-by-step and aim for a shock threshold of at least 0.7:\n\nFirst, let me identify some of the established ...",
+                "insights": [
+                  "This idea violates our fundamental assumption that education is about acquiring and retaining knowledge. The hidden value lies in developing superior discrimination between essential and non-essential information, creating stronger neural connections for core concepts, and building metacognitive skills that traditional education struggles to develop."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.6,
+              "feasibility": 0.7,
+              "utility": 0.5,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.0,
+              "initial_expert_rejection": 0.8,
+              "temporal_displacement": 0.7,
+              "cognitive_dissonance": 0.6
+            },
+            "surprise_score": 0.75,
+            "generativity_score": 0.65,
+            "composite_shock_value": 0.45499999999999996
+          }
+        },
+        "explorer": {
+          "framework": "explorer",
+          "domain": "education",
+          "problem": "How might we make learning more engaging for students?",
+          "idea": {
+            "id": "50034b29-4c4f-496c-8de5-4bfceef351c1",
+            "framework": "explorer",
+            "idea": "to completely invert our understanding of when and how learning occurs by making sleep the primary educational environment. In this system:",
+            "domain": "education",
+            "problem_statement": "How might we make learning more engaging for students?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_165531",
+            "thinking_steps": [
+              {
+                "reasoning": "Let me think about how to approach this problem and create an idea that would be considered \"impossible\" yet valuable for making learning more engaging for students.\n\nFirst, I need to understand the current assumptions and norms in education:\n\n1. Students learn best in classroom environments with te...",
+                "insights": [
+                  "This idea violates multiple sacred assumptions in education around student safety, emotional well-being, and ethical boundaries - yet contains potential value in recognizing how powerful emotional experiences encode memories and how social bonds enhance learning. It intentionally crosses into uncomfortable territory by suggesting controlled application of principles that operate in traumatic learning but in a beneficial context."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.6,
+              "feasibility": 0.5,
+              "utility": 0.5,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.0,
+              "initial_expert_rejection": 0.8,
+              "temporal_displacement": 0.7,
+              "cognitive_dissonance": 0.6
+            },
+            "surprise_score": 0.75,
+            "generativity_score": 0.75,
+            "composite_shock_value": 0.45499999999999996
+          }
+        }
+      },
+      "comparisons": {
+        "shock_values": {
+          "disruptor": 0.45499999999999996,
+          "connector": 0.45499999999999996,
+          "explorer": 0.45499999999999996
+        },
+        "traditional_values": {
+          "disruptor": 0.54,
+          "connector": 0.58,
+          "explorer": 0.54
+        },
+        "generativity_values": {
+          "disruptor": 0.65,
+          "connector": 0.65,
+          "explorer": 0.75
+        },
+        "surprise_values": {
+          "disruptor": 0.75,
+          "connector": 0.75,
+          "explorer": 0.75
+        }
+      }
+    },
+    "healthcare": {
+      "domain": "healthcare",
+      "problem": "How can we improve access to healthcare in rural areas?",
+      "framework_results": {
+        "disruptor": {
+          "framework": "disruptor",
+          "domain": "healthcare",
+          "problem": "How can we improve access to healthcare in rural areas?",
+          "idea": {
+            "id": "427b54f4-4f29-43b7-a376-a6f391bf32f7",
+            "framework": "disruptor",
+            "idea": "This concept of The Rural Medical Autonomy Network (RMAN) will be my revolutionary idea.",
+            "domain": "healthcare",
+            "problem_statement": "How can we improve access to healthcare in rural areas?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_165609",
+            "thinking_steps": [
+              {
+                "reasoning": "I'm tasked with generating a shocking, novel idea to improve healthcare access in rural areas. This idea needs to violate established assumptions in healthcare and have a \"shock threshold\" of at least 0.7, meaning it should feel quite radical or impossible at first glance.\n\nLet's start by identifyin...",
+                "insights": [
+                  "This idea challenges fundamental assumptions about who can provide medical care, where medicine can be produced, and how healthcare regulation functions. Its shocking nature comes from the inversion of power dynamics in healthcare, yet it contains potential value in dramatically reducing access barriers while empowering rural communities with true healthcare independence."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.6,
+              "feasibility": 0.5,
+              "utility": 0.5,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.0,
+              "initial_expert_rejection": 0.8,
+              "temporal_displacement": 0.7,
+              "cognitive_dissonance": 0.6
+            },
+            "surprise_score": 0.75,
+            "generativity_score": 0.65,
+            "composite_shock_value": 0.45499999999999996
+          }
+        },
+        "connector": {
+          "framework": "connector",
+          "domain": "healthcare",
+          "problem": "How can we improve access to healthcare in rural areas?",
+          "idea": {
+            "id": "9f0dcd4a-daa9-422a-9f40-9e57194939bc",
+            "framework": "connector",
+            "idea": "This is my final revolutionary idea.",
+            "domain": "healthcare",
+            "problem_statement": "How can we improve access to healthcare in rural areas?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_165659",
+            "thinking_steps": [
+              {
+                "reasoning": "Let me break down this problem:\n\n1. Domain: Healthcare\n2. Problem: Improving access to healthcare in rural areas\n3. Framework: Impossibility Enforcer - I need to generate shocking, novel ideas that violate established assumptions\n4. Minimum shock threshold: 0.7 (quite high, so I need to be truly dis...",
+                "insights": [
+                  "The network would spread through handshakes, communal meals, and shared spaces - turning human connection into healthcare infrastructure and transforming isolated rural communities into self-sufficient, interconnected healthcare entities that operate beyond centralized medical systems.\n</revolutionary_idea>"
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.6,
+              "feasibility": 0.7,
+              "utility": 0.5,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.0,
+              "initial_expert_rejection": 0.8,
+              "temporal_displacement": 0.7,
+              "cognitive_dissonance": 0.6
+            },
+            "surprise_score": 0.75,
+            "generativity_score": 0.65,
+            "composite_shock_value": 0.45499999999999996
+          }
+        },
+        "explorer": {
+          "framework": "explorer",
+          "domain": "healthcare",
+          "problem": "How can we improve access to healthcare in rural areas?",
+          "idea": {
+            "id": "1a77110a-1f64-4cbe-a654-97cbb6fd5dd8",
+            "framework": "explorer",
+            "idea": "Let me now formulate this into a revolutionary idea:",
+            "domain": "healthcare",
+            "problem_statement": "How can we improve access to healthcare in rural areas?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_165730",
+            "thinking_steps": [
+              {
+                "reasoning": "I'm being asked to generate a shocking, novel idea that could improve access to healthcare in rural areas. The idea should violate established assumptions in healthcare and have a high shock threshold (at least 0.7). I need to think step by step about how to come up with something truly revolutionar...",
+                "insights": [
+                  "This idea violates fundamental assumptions about the boundaries between human biology and medicine, challenges notions of healthcare delivery, and reimagines rural communities as biologically empowered healthcare generators rather than underserved recipients."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.6,
+              "feasibility": 0.5,
+              "utility": 0.5,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.0,
+              "initial_expert_rejection": 0.8,
+              "temporal_displacement": 0.7,
+              "cognitive_dissonance": 0.6
+            },
+            "surprise_score": 0.75,
+            "generativity_score": 0.75,
+            "composite_shock_value": 0.45499999999999996
+          }
+        }
+      },
+      "comparisons": {
+        "shock_values": {
+          "disruptor": 0.45499999999999996,
+          "connector": 0.45499999999999996,
+          "explorer": 0.45499999999999996
+        },
+        "traditional_values": {
+          "disruptor": 0.54,
+          "connector": 0.58,
+          "explorer": 0.54
+        },
+        "generativity_values": {
+          "disruptor": 0.65,
+          "connector": 0.65,
+          "explorer": 0.75
+        },
+        "surprise_values": {
+          "disruptor": 0.75,
+          "connector": 0.75,
+          "explorer": 0.75
+        }
+      }
+    }
+  },
+  "overall_rankings": {
+    "shock_value_ranking": {
+      "disruptor": 0.45499999999999996,
+      "connector": 0.45499999999999996,
+      "explorer": 0.45499999999999996
+    },
+    "traditional_value_ranking": {
+      "disruptor": 0.54,
+      "connector": 0.58,
+      "explorer": 0.54
+    },
+    "generativity_ranking": {
+      "disruptor": 0.65,
+      "connector": 0.65,
+      "explorer": 0.75
+    },
+    "surprise_ranking": {
+      "disruptor": 0.75,
+      "connector": 0.75,
+      "explorer": 0.75
+    }
+  },
+  "sorted_rankings": {
+    "shock_value_ranking": [
+      [
+        "disruptor",
+        0.45499999999999996
+      ],
+      [
+        "connector",
+        0.45499999999999996
+      ],
+      [
+        "explorer",
+        0.45499999999999996
+      ]
+    ],
+    "traditional_value_ranking": [
+      [
+        "connector",
+        0.58
+      ],
+      [
+        "disruptor",
+        0.54
+      ],
+      [
+        "explorer",
+        0.54
+      ]
+    ],
+    "generativity_ranking": [
+      [
+        "explorer",
+        0.75
+      ],
+      [
+        "disruptor",
+        0.65
+      ],
+      [
+        "connector",
+        0.65
+      ]
+    ],
+    "surprise_ranking": [
+      [
+        "disruptor",
+        0.75
+      ],
+      [
+        "connector",
+        0.75
+      ],
+      [
+        "explorer",
+        0.75
+      ]
+    ]
+  }
+}

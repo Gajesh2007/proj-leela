@@ -166,3 +166,23 @@ frontend/dist/
 # Add any additional exclusions here
 # For example:
 # *.additional_file_pattern 
+
+# Ignore all files in the data/input directory
+data/input/*
+
+# Ignore all files in the data/output directory
+data/output/*
+
+# Ignore all files in the alembic directory
+alembic/*
+
+REBUILD_PREPARATION.md 
+ResearchPaper.md
+ResearchPaper.tex
+
+PROJECT_PLAN.md
+
+IMPLEMENTATION_PROGRESS.md
+IMPLEMENTATION_SUMMARY.md
+IMPLEMENTATION_TOOLS.md 
+

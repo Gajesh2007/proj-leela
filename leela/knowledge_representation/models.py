@@ -105,6 +105,8 @@ class CreativeIdea(BaseModel):
     related_concepts: List[Any] = Field(default_factory=list, 
                                         description="Related concept IDs")
     shock_metrics: Optional[ShockProfile] = Field(None, description="Metrics for shock value")
+    thinking_steps: List["ThinkingStep"] = Field(default_factory=list,
+                                              description="Thinking steps that generated this idea")
 
 
 class ThinkingStep(BaseModel):

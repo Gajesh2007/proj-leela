@@ -5,27 +5,10 @@ import os
 import asyncio
 from typing import Dict, List, Any, Optional, Union
 import json
+import uuid
 import anthropic
 from ..config import get_config
-# Using direct import to break circular dependency
-import uuid
-import datetime
-from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field, UUID4
-
-# Define ThinkingStep and ShockDirective here instead of importing
-class ThinkingStep(BaseModel):
-    """Represents a single step in Claude's extended thinking process."""
-    id: UUID4 = Field(default_factory=uuid.uuid4)
-    step_type: str = Field(...)
-    reasoning_process: str = Field(...)
-    insights_generated: Optional[List[str]] = Field(default_factory=list)
-    
-class ShockDirective(BaseModel):
-    """Directive for controlling the shock value of generated ideas."""
-    impossibility_constraints: List[str] = Field(default_factory=list)
-    contradiction_requirements: List[str] = Field(default_factory=list)
-    shock_threshold: float = Field(0.6)
+from ..knowledge_representation.models import ThinkingStep, ShockDirective
 from ..prompt_management.prompt_loader import PromptLoader
 
 
@@ -47,15 +30,16 @@ class ClaudeAPIClient:
             raise ValueError("Anthropic API key is required")
             
         self.model = config["api"]["model"]
-        self.client = anthropic.Anthropic(api_key=self.api_key)
+        # Updated to be compatible with newer Anthropic SDK versions
+        self.client = anthropic.Anthropic(api_key=self.api_key, default_headers={})
         self.prompt_loader = PromptLoader()
     
     async def generate_thinking(self, 
                               prompt: str, 
-                              thinking_budget: int = 16000,
-                              max_tokens: int = 40000) -> ThinkingStep:
+                              thinking_budget: int = 8000,  # Reduced from 16000 to avoid timeouts
+                              max_tokens: int = 12000) -> ThinkingStep:  # Must be greater than thinking_budget
         """
-        Generate a thinking step using Claude's Extended Thinking capabilities.
+        Generate a thinking step using Claude's Extended Thinking capabilities with streaming.
         
         Args:
             prompt: The prompt to send to Claude
@@ -66,8 +50,8 @@ class ClaudeAPIClient:
             ThinkingStep: The thinking step generated
         """
         try:
-            # Create the message with extended thinking enabled
-            message = self.client.messages.create(
+            # Use streaming for long-running requests as recommended
+            with self.client.messages.stream(
                 model=self.model,
                 max_tokens=max_tokens,
                 thinking={
@@ -78,24 +62,47 @@ class ClaudeAPIClient:
                 messages=[
                     {"role": "user", "content": prompt}
                 ]
-            )
-            
-            # Extract thinking from the response
-            thinking_text = ""
-            insights = []
-            token_usage = 0
-            
-            # Process content blocks
-            for content_block in message.content:
-                if content_block.type == "thinking":
-                    thinking_text = content_block.thinking
-                elif content_block.type == "text":
-                    # The text content can be used to extract insights
-                    insights = self._extract_insights(content_block.text)
-            
-            # Get token usage
-            if hasattr(message, "usage") and hasattr(message.usage, "output_tokens"):
-                token_usage = message.usage.output_tokens
+            ) as stream:
+                # Initialize variables to collect response
+                thinking_text = ""
+                insights = []
+                token_usage = 0
+                message_content = ""
+                
+                # Process the stream
+                for text in stream:
+                    # Extract thinking if available
+                    if hasattr(text, "delta") and hasattr(text.delta, "thinking"):
+                        if text.delta.thinking:
+                            thinking_text += text.delta.thinking
+                    
+                    # Collect text content for insights
+                    if hasattr(text, "delta") and hasattr(text.delta, "text"):
+                        if text.delta.text:
+                            message_content += text.delta.text
+                
+                # Get final message for token usage and remaining content
+                message = stream.get_final_message()
+                
+                # Get token usage
+                if hasattr(message, "usage") and hasattr(message.usage, "output_tokens"):
+                    token_usage = message.usage.output_tokens
+                
+                # If thinking_text is still empty, check if there's thinking in the final message
+                if not thinking_text:
+                    for content_block in message.content:
+                        if content_block.type == "thinking":
+                            thinking_text = content_block.thinking
+                
+                # Extract insights from the message content
+                if message_content:
+                    insights = self._extract_insights(message_content)
+                else:
+                    # Try to extract from the final message content
+                    for content_block in message.content:
+                        if content_block.type == "text":
+                            insights = self._extract_insights(content_block.text)
+                            break
             
             # Create a ThinkingStep object
             thinking_step = ThinkingStep(

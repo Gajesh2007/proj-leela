@@ -245,11 +245,11 @@ class MetaCreativeSpiral:
             create_prompt = f"Generate novel approaches to the following problem: {self.spiral_state.problem_space}\n\n"
             create_prompt += f"Use the {framework} framework to generate an idea that violates conventional assumptions."
         
-        # Generate thinking
+        # Generate thinking with reduced token limits to use streaming
         thinking_step = await self.claude_client.generate_thinking(
             prompt=create_prompt,
-            thinking_budget=16000,
-            max_tokens=4000
+            thinking_budget=4000,  # Reduced further to avoid timeouts
+            max_tokens=8000
         )
         
         # Add to thinking history

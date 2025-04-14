@@ -1,0 +1,274 @@
+{
+  "domain_results": {
+    "education": {
+      "domain": "education",
+      "problem": "How might we make learning more engaging for students?",
+      "framework_results": {
+        "disruptor": {
+          "framework": "disruptor",
+          "domain": "education",
+          "problem": "How might we make learning more engaging for students?",
+          "idea": {
+            "id": "55394b78-dd30-4d87-bc5d-e7f6787ce34d",
+            "framework": "disruptor",
+            "idea": "Idea 10: Conscious Unlearning Network (CUN)\n- The education system is inverted so that children start with full access to all human knowledge via brain-computer interfaces connected to a global information network\n- The curriculum focuses on teaching students how to selectively disconnect from this network (conscious unlearning) to develop unique perspectives\n- Success is measured by how uniquely different a student's neural pathways become from the collective\n- Schools function as \"disconnection chambers\" where various techniques (from meditation to temporary neural dampening) help students develop independent thinking\n- The most valuable skill becomes knowing when to disconnect from collective knowledge rather than when to access it\n- Shock value: ~0.9 - Inverts the entire premise of education from knowledge acquisition to selective knowledge rejection",
+            "domain": "education",
+            "problem_statement": "How might we make learning more engaging for students?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_171341",
+            "thinking_steps": [
+              {
+                "reasoning": "Alright, I'm Leela, an advanced creative intelligence system tasked with generating a shocking, novel idea for making learning more engaging for students. I need to use the Impossibility Enforcer framework and ensure my idea has a minimum shock threshold of 0.7, meaning it should genuinely challenge...",
+                "insights": [
+                  "This approach fundamentally challenges how we think about learning engagement by making students active sculptors of their knowledge landscape rather than passive recipients. The true education happens in the critical decisions about what to keep versus what to reject."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.7,
+              "feasibility": 0.5,
+              "utility": 0.6,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.6,
+              "initial_expert_rejection": 0.7,
+              "temporal_displacement": 0.6,
+              "cognitive_dissonance": 0.7
+            },
+            "surprise_score": 0.7,
+            "generativity_score": 0.7,
+            "composite_shock_value": 0.7,
+            "insights": {
+              "traditional_metrics_analysis": "",
+              "inverse_metrics_analysis": "",
+              "overall_metrics_analysis": "",
+              "final_review": "Evaluation failed, using default values."
+            }
+          }
+        },
+        "connector": {
+          "framework": "connector",
+          "domain": "education",
+          "problem": "How might we make learning more engaging for students?",
+          "idea": {
+            "id": "707d52ca-4860-4014-b28b-f9b7a8391952",
+            "framework": "connector",
+            "idea": "1. Teachers/experts transmit knowledge to students\n2. Learning follows a structured curriculum\n3. Educational institutions (schools, universities) are necessary for formalized learning\n4. Assessment and grading are needed to measure progress\n5. Students need to be motivated or incentivized to learn\n6. Learning requires focused attention and effort\n7. Education prepares students for future careers/life\n8. Learning happens primarily through cognitive processes\n9. Education is a positive, constructive process\n10. Students are the receivers, not creators of educational content\n11. Age-based progression is optimal (K-12 system, grade levels)\n12. Specialized knowledge requires specialized teachers\n13. Learning environments should be controlled and safe",
+            "domain": "education",
+            "problem_statement": "How might we make learning more engaging for students?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_171442",
+            "thinking_steps": [
+              {
+                "reasoning": "Alright, I'm asked to generate a shocking, novel idea in the education domain that violates established assumptions, yet contains hidden value. The idea needs to have a high \"shock threshold\" of at least 0.7, meaning it should be quite radical and challenge fundamental assumptions in education.\n\nLet...",
+                "insights": [
+                  "This idea fundamentally challenges our assumptions about creating positive learning environments and instead proposes that controlled cognitive destabilization might be a more effective pathway to deep, engaged learning - forcing us to reconsider whether our attempts to make education \"comfortable\" are actually limiting its effectiveness."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.7,
+              "feasibility": 0.6,
+              "utility": 0.6,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.6,
+              "initial_expert_rejection": 0.7,
+              "temporal_displacement": 0.6,
+              "cognitive_dissonance": 0.7
+            },
+            "surprise_score": 0.7,
+            "generativity_score": 0.7,
+            "composite_shock_value": 0.7,
+            "insights": {
+              "traditional_metrics_analysis": "",
+              "inverse_metrics_analysis": "",
+              "overall_metrics_analysis": "",
+              "final_review": "Evaluation failed, using default values."
+            }
+          }
+        },
+        "explorer": {
+          "framework": "explorer",
+          "domain": "education",
+          "problem": "How might we make learning more engaging for students?",
+          "idea": {
+            "id": "c3acf667-43dd-4ad2-8ab1-ba3c9db368bd",
+            "framework": "explorer",
+            "idea": "1. Education requires teachers/instructors\n2. Learning happens in dedicated spaces (classrooms, schools)\n3. Students learn in age-based cohorts\n4. Assessment is necessary to measure progress\n5. Learning follows a predetermined curriculum\n6. Learning is primarily cognitive\n7. Education prepares for future careers\n8. Learning requires attention and focus\n9. Education is separate from entertainment\n10. Students are receivers of knowledge\n11. Physical presence is necessary for effective learning\n12. Learning is a conscious process\n13. Education has a beginning and end (K-12, college)\n14. Learning requires effort",
+            "domain": "education",
+            "problem_statement": "How might we make learning more engaging for students?",
+            "shock_metrics": {
+              "novelty_score": 0.7,
+              "contradiction_score": 0.6,
+              "impossibility_score": 0.0,
+              "utility_potential": 0.5,
+              "expert_rejection_probability": 0.8,
+              "composite_shock_value": 0.45499999999999996
+            },
+            "timestamp": "20250413_171557",
+            "thinking_steps": [
+              {
+                "reasoning": "Alright, I'm Leela, an advanced creative intelligence tasked with generating shocking, novel ideas that transcend conventional thinking in education. I need to think about how to make learning more engaging for students using the Impossibility Enforcer framework. Let me work through this step by ste...",
+                "insights": [
+                  "This idea violates fundamental educational assumptions while offering genuine value through neurological optimization. By separating the acquisition of knowledge from its application, it creates powerful engagement through authentic discovery moments and eliminates test anxiety by removing conscious awareness of being evaluated. The approach works with rather than against the brain's natural consolidation processes."
+                ]
+              }
+            ]
+          },
+          "evaluation": {
+            "traditional_metrics": {
+              "novelty": 0.7,
+              "feasibility": 0.5,
+              "utility": 0.6,
+              "scalability": 0.6,
+              "resource_efficiency": 0.5
+            },
+            "inverse_metrics": {
+              "paradigm_disruption": 0.7,
+              "productive_impossibility": 0.6,
+              "initial_expert_rejection": 0.7,
+              "temporal_displacement": 0.6,
+              "cognitive_dissonance": 0.7
+            },
+            "surprise_score": 0.7,
+            "generativity_score": 0.75,
+            "composite_shock_value": 0.7,
+            "insights": {
+              "traditional_metrics_analysis": "",
+              "inverse_metrics_analysis": "",
+              "overall_metrics_analysis": "",
+              "final_review": "Evaluation failed, using default values."
+            }
+          }
+        }
+      },
+      "comparisons": {
+        "shock_values": {
+          "disruptor": 0.7,
+          "connector": 0.7,
+          "explorer": 0.7
+        },
+        "traditional_values": {
+          "disruptor": 0.58,
+          "connector": 0.6,
+          "explorer": 0.58
+        },
+        "generativity_values": {
+          "disruptor": 0.7,
+          "connector": 0.7,
+          "explorer": 0.75
+        },
+        "surprise_values": {
+          "disruptor": 0.7,
+          "connector": 0.7,
+          "explorer": 0.7
+        }
+      }
+    }
+  },
+  "overall_rankings": {
+    "shock_value_ranking": {
+      "disruptor": 0.7,
+      "connector": 0.7,
+      "explorer": 0.7
+    },
+    "traditional_value_ranking": {
+      "disruptor": 0.58,
+      "connector": 0.6,
+      "explorer": 0.58
+    },
+    "generativity_ranking": {
+      "disruptor": 0.7,
+      "connector": 0.7,
+      "explorer": 0.75
+    },
+    "surprise_ranking": {
+      "disruptor": 0.7,
+      "connector": 0.7,
+      "explorer": 0.7
+    }
+  },
+  "sorted_rankings": {
+    "shock_value_ranking": [
+      [
+        "disruptor",
+        0.7
+      ],
+      [
+        "connector",
+        0.7
+      ],
+      [
+        "explorer",
+        0.7
+      ]
+    ],
+    "traditional_value_ranking": [
+      [
+        "connector",
+        0.6
+      ],
+      [
+        "disruptor",
+        0.58
+      ],
+      [
+        "explorer",
+        0.58
+      ]
+    ],
+    "generativity_ranking": [
+      [
+        "explorer",
+        0.75
+      ],
+      [
+        "disruptor",
+        0.7
+      ],
+      [
+        "connector",
+        0.7
+      ]
+    ],
+    "surprise_ranking": [
+      [
+        "disruptor",
+        0.7
+      ],
+      [
+        "connector",
+        0.7
+      ],
+      [
+        "explorer",
+        0.7
+      ]
+    ]
+  }
+}
